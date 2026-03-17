@@ -7,7 +7,7 @@ export default function DocsIndex() {
   const sources = getDocSources();
 
   return (
-    <>
+    <div className="govuk-width-container">
       <Breadcrumbs items={[{ label: 'Documentation' }]} />
 
       <h1 className="govuk-heading-xl">Documentation</h1>
@@ -46,6 +46,6 @@ export default function DocsIndex() {
       )}
 
       <ChatBot />
-    </>
+    </div>
   );
 }

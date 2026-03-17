@@ -9,7 +9,7 @@ const guidelineContent: Record<string, string> = {
   'choosing-hosting': `
 ## Overview
 
-When starting a new service, one of the first decisions is where to host it. The Ministry of Magic offers two main hosting platforms:
+When starting a new service, one of the first decisions is where to host it. The Ministry of Justice offers two main hosting platforms:
 
 ### Cloud Platform (recommended default)
 
@@ -79,7 +79,7 @@ GET /v1/creatures?cursor=abc123&limit=20
 
 ### Authentication
 
-- Use OAuth 2.0 with SpellCheck Auth for Ministry of Magic services
+- Use OAuth 2.0 with appropriate auth for Ministry of Justice services
 - Use API keys for simpler integrations
 - Never pass credentials in query strings
   `,
@@ -111,7 +111,7 @@ Using the GOV.UK Design System and Frontend gives you a strong accessibility bas
 
 - [GOV.UK accessibility requirements](https://www.gov.uk/guidance/accessibility-requirements-for-public-sector-websites-and-apps)
 - [WCAG 2.2 quick reference](https://www.w3.org/WAI/WCAG22/quickref/)
-- [Ministry of Magic Design System](/products/mom-design-system/system)
+- [Ministry of Justice Design System](/products/moj-design-system/system)
   `,
 };
 
@@ -173,7 +173,7 @@ If you have questions, reach out to the ${guideline.owner} team.
   const reviewStatus = getReviewStatus(guideline.lastReviewedOn, guideline.reviewIn);
 
   return (
-    <>
+    <div className="govuk-width-container">
       <Breadcrumbs
         items={[
           { label: 'Guidelines', href: '/guidelines' },
@@ -210,7 +210,7 @@ If you have questions, reach out to the ${guideline.owner} team.
       </div>
 
       <ChatBot />
-    </>
+    </div>
   );
 }
 

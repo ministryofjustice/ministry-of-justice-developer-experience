@@ -10,44 +10,29 @@ const navItems = [
   { href: '/community', label: 'Community' },
 ];
 
-function WizardHatIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 32 32"
-      width="30"
-      height="30"
-      fill="currentcolor"
-      className="govuk-header__logotype"
-      focusable="false"
-      role="presentation"
-      aria-hidden="true"
-    >
-      {/* Wizard hat silhouette */}
-      <path d="M16 3 C16 3 14.5 4.5 13.5 6 L8.5 24 C8.5 24 12 23 16 23 C20 23 23.5 24 23.5 24 L18.5 6 C17.5 4.5 16 3 16 3Z"/>
-      {/* Hat tip curve */}
-      <path d="M16 3 Q19 5 21 4 Q19 7 18.5 6" fillOpacity="0.9"/>
-      {/* Brim */}
-      <ellipse cx="16" cy="26" rx="13" ry="2.5"/>
-      {/* Star */}
-      <polygon points="16,11 17,14 20,14 17.5,16 18.5,19 16,17 13.5,19 14.5,16 12,14 15,14"/>
-    </svg>
-  );
-}
-
 export function Header() {
   const pathname = usePathname();
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
   return (
     <>
-      <header className="govuk-header" role="banner" data-module="govuk-header">
-        <div className="govuk-width-container govuk-header__container">
-          <div className="govuk-header__logo">
-            <Link href="/" className="govuk-header__homepage-link" onClick={(e) => e.currentTarget.blur()}>
-              <WizardHatIcon />
-              <span className="app-header__org-name">MINISTRY OF MAGIC</span>
-              <span className="govuk-header__product-name">Developer Portal</span>
-            </Link>
+      <header className="moj-header" role="banner">
+        <div className="moj-header__container">
+          <div className="moj-header__logo">
+            <img 
+              src={`${basePath}/assets/images/govuk-crest.svg`}
+              alt=""
+              className="moj-header__logotype-crest"
+              width="40"
+              height="40"
+            />
+            <a href="/" className="moj-header__link moj-header__link--organisation-name">
+              Ministry of Justice
+            </a>
+
+            <a href="/" className="moj-header__link moj-header__link--service-name">
+              Developer portal
+            </a>
           </div>
         </div>
       </header>

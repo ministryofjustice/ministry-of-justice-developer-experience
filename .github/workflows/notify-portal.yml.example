@@ -1,7 +1,7 @@
 # Notify Developer Portal
 #
 # Add this workflow to any source repo that publishes documentation
-# to the Ministry of Magic Developer Portal. When docs change on the default branch,
+# to the Ministry of Justice Developer Portal. When docs change on the default branch,
 # it fires a repository_dispatch event to trigger re-ingestion.
 #
 # Requirements:
@@ -24,6 +24,6 @@ jobs:
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.PORTAL_DISPATCH_TOKEN }}
-          repository: totleightowers/developer-portal
+          repository: ministryofjustice/ministry-of-justice-developer-experience
           event-type: docs-update
           client-payload: '{"source_id": "${{ github.event.repository.name }}"}'

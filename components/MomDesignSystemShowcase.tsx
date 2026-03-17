@@ -215,7 +215,7 @@ export function MomDesignSystemShowcase() {
         <ul className="govuk-list govuk-list--bullet">
           <li><strong>Wand-free navigation:</strong> every action is reachable by keyboard, voice, and familiar-relay input. No interaction requires gestural casting.</li>
           <li><strong>Multi-species readability:</strong> content is tested across human-standard, low-light (subterranean), and high-altitude scrying conditions at WCAG 2.2 AA minimum.</li>
-          <li><strong>Temporal consistency:</strong> interfaces must render identically regardless of the observer&apos;s local time-flow rate. All timestamps use Coordinated Magical Time (CMT).</li>
+          <li><strong>Temporal consistency:</strong> interfaces must render identically regardless of the user&apos;s local time zone. All timestamps use UTC.</li>
           <li><strong>Screen reader and rune reader parity:</strong> ARIA labels and rune-sequence descriptions provide equivalent information to users of both technologies.</li>
           <li><strong>Familiar-agent compatibility:</strong> automated familiars acting on behalf of a user receive the same semantic structure as human users, ensuring no degraded experience for delegated tasks.</li>
         </ul>

@@ -3,21 +3,21 @@ import { ChatBot } from '@/components/ChatBot';
 import { MomDesignSystemShowcase } from '@/components/MomDesignSystemShowcase';
 
 export const metadata = {
-  title: 'Ministry of Magic Design System',
+  title: 'Ministry of Justice Design System',
 };
 
-export default function MomDesignSystemPage() {
+export default function MojDesignSystemPage() {
   return (
-    <>
+    <div className="govuk-width-container">
       <Breadcrumbs
         items={[
           { label: 'Products', href: '/products' },
-          { label: 'Ministry of Magic Design System', href: '/products/mom-design-system' },
+          { label: 'Ministry of Justice Design System', href: '/products/moj-design-system' },
           { label: 'Design system' },
         ]}
       />
 
-      <h1 className="govuk-heading-xl">Ministry of Magic Design System</h1>
+      <h1 className="govuk-heading-xl">Ministry of Justice Design System</h1>
       <p className="govuk-body-l" data-mom-fade-target="intro">
         The unified pattern library for enchanted public services — field-tested across
         ward licensing, creature registration, and interdimensional border control.
@@ -27,6 +27,6 @@ export default function MomDesignSystemPage() {
       <MomDesignSystemShowcase />
 
       <ChatBot />
-    </>
+    </div>
   );
 }

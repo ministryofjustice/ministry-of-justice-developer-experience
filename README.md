@@ -1,4 +1,4 @@
-# Ministry of Magic Developer Portal
+# Ministry of Justice Developer Portal
 
 A cross-government developer portal inspired by [Singapore's Government Developer Portal](https://developer.tech.gov.sg/), built with GOV.UK styles.
 
@@ -6,13 +6,13 @@ A cross-government developer portal inspired by [Singapore's Government Develope
 
 ## What it does
 
-- **Product catalogue** — browse platforms, tools, and APIs available across government (mix of real MoJ platforms and whimsical Ministry of Magic services)
+- **Product catalogue** — browse platforms, tools, and APIs available across government (mix of real MoJ platforms)
 - **Documentation hub** — technical docs ingested automatically from source repositories (Cloud Platform, Modernisation Platform, Analytical Platform)
 - **Guidelines** — standards and best practices organised by project lifecycle phase, linking out to real cross-government resources (Service Standard, Technology Code of Practice, NCSC guidance, MoJ AI Governance Framework, GOV.UK Design System, and more)
 - **Community** — links to Slack channels, open source, events
 - **AI chatbot** — contextual help assistant (mock responses in alpha)
 - **Full-text search** — powered by [Pagefind](https://pagefind.app/)
-- **Ministry of Magic Design System** — internal easter egg page showcasing a fictional design system for enchanted public services, with a subtle fade animation effect
+- **MoJ Design System** — internal page showcasing design system patterns and components, with a subtle fade animation effect
 
 ## Tech stack
 

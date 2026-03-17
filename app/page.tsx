@@ -37,7 +37,7 @@ const whatsNew = [
   {
     date: '2026-02-27',
     title: 'Developer Portal launched in Alpha',
-    description: 'The Ministry of Magic Developer Portal is now available for feedback. Explore documentation from Cloud Platform, Modernisation Platform, and Analytical Platform.',
+    description: 'The Ministry of Justice Developer Portal is now available for feedback. Explore documentation from Cloud Platform, Modernisation Platform, and Analytical Platform.',
   },
   {
     date: '2026-02-25',
@@ -61,7 +61,7 @@ export default function Home() {
     <>
       <div className="app-hero">
         <div className="govuk-width-container">
-          <h1 className="govuk-heading-xl app-hero__title">Ministry of Magic Developer Portal</h1>
+          <h1 className="govuk-heading-xl app-hero__title">Ministry of Justice Developer Portal</h1>
           <p className="app-hero__description">
             The central place for cross-government developers to discover products,
             read documentation, and follow best practice guidelines.
@@ -72,42 +72,44 @@ export default function Home() {
         </div>
       </div>
 
-      <section className="govuk-!-margin-top-8">
-        <div className="app-cards">
-          {features.map((feature) => (
-            <div key={feature.href} className="app-card">
-              <span className="app-card__tag">{feature.tag}</span>
-              <h2 className="govuk-heading-m app-card__title">
-                <Link href={feature.href} className="govuk-link app-card__title-link">
-                  {feature.title}
-                </Link>
-              </h2>
-              <p className="govuk-body app-card__description">{feature.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <div className="govuk-width-container">
+        <section className="govuk-!-margin-top-8">
+          <div className="app-cards">
+            {features.map((feature) => (
+              <div key={feature.href} className="app-card">
+                <span className="app-card__tag">{feature.tag}</span>
+                <h2 className="govuk-heading-m app-card__title">
+                  <Link href={feature.href} className="govuk-link app-card__title-link">
+                    {feature.title}
+                  </Link>
+                </h2>
+                <p className="govuk-body app-card__description">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
-      <section className="govuk-!-margin-top-6">
-        <h2 className="govuk-heading-l">What&apos;s new</h2>
-        <div>
-          {whatsNew.map((item, index) => (
-            <div key={index} className="app-whats-new__item">
-              <span className="app-whats-new__date">
-                {new Date(item.date).toLocaleDateString('en-GB', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                })}
-              </span>
-              <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-margin-top-1">
-                {item.title}
-              </h3>
-              <p className="govuk-body">{item.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+        <section className="govuk-!-margin-top-6">
+          <h2 className="govuk-heading-l">What&apos;s new</h2>
+          <div>
+            {whatsNew.map((item, index) => (
+              <div key={index} className="app-whats-new__item">
+                <span className="app-whats-new__date">
+                  {new Date(item.date).toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })}
+                </span>
+                <h3 className="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-margin-top-1">
+                  {item.title}
+                </h3>
+                <p className="govuk-body">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
 
       <ChatBot />
     </>

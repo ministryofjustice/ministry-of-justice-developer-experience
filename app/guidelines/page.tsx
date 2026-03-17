@@ -45,13 +45,13 @@ const phases: Phase[] = [
 
 export default function GuidelinesPage() {
   return (
-    <>
+    <div className="govuk-width-container">
       <Breadcrumbs items={[{ label: 'Guidelines' }]} />
 
       <h1 className="govuk-heading-xl">Guidelines</h1>
       <p className="govuk-body-l">
         Standards and best practices organised by project lifecycle. Follow these guidelines
-        to build services that meet Ministry of Magic and cross-government expectations.
+        to build services that meet Ministry of Justice and cross-government expectations.
       </p>
 
       {phases.map((phase) => {
@@ -85,6 +85,6 @@ export default function GuidelinesPage() {
       })}
 
       <ChatBot />
-    </>
+    </div>
   );
 }

@@ -64,7 +64,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<Pa
     );
 
   return (
-    <>
+    <div className="govuk-width-container">
       <Breadcrumbs items={[{ label: 'Products', href: '/products' }, { label: product.name }]} />
 
       <div className="govuk-grid-row">
@@ -125,6 +125,6 @@ export default async function ProductDetailPage({ params }: { params: Promise<Pa
       </div>
 
       <ChatBot />
-    </>
+    </div>
   );
 }

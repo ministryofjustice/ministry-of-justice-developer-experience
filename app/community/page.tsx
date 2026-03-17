@@ -3,7 +3,7 @@ import { ChatBot } from '@/components/ChatBot';
 
 export default function CommunityPage() {
   return (
-    <>
+    <div className="govuk-width-container">
       <Breadcrumbs items={[{ label: 'Community' }]} />
 
       <h1 className="govuk-heading-xl">Community</h1>
@@ -17,7 +17,7 @@ export default function CommunityPage() {
           <span className="app-card__tag">Chat</span>
           <h2 className="govuk-heading-m app-card__title">Slack Channels</h2>
           <p className="govuk-body app-card__description">
-            Join the Ministry of Magic Digital &amp; Technology Slack workspace. Key channels:
+            Join the Ministry of Justice Digital &amp; Technology Slack workspace. Key channels:
             #developers, #cloud-platform, #modernisation-platform, #security.
           </p>
         </div>
@@ -25,7 +25,7 @@ export default function CommunityPage() {
         <div className="app-card">
           <span className="app-card__tag">Code</span>
           <h2 className="govuk-heading-m app-card__title">
-            <a href="https://github.com/totleightowers" className="govuk-link app-card__title-link" rel="noopener noreferrer">
+            <a href="https://github.com/ministryofjustice" className="govuk-link app-card__title-link" rel="noopener noreferrer">
               Open Source
             </a>
           </h2>
@@ -37,13 +37,13 @@ export default function CommunityPage() {
         <div className="app-card">
           <span className="app-card__tag">Learn</span>
           <h2 className="govuk-heading-m app-card__title">
-            <a href="https://github.com/totleightowers/developer-portal" className="govuk-link app-card__title-link" rel="noopener noreferrer">
+            <a href="https://github.com/ministryofjustice/ministry-of-justice-developer-experience" className="govuk-link app-card__title-link" rel="noopener noreferrer">
               Blog
             </a>
           </h2>
           <p className="govuk-body app-card__description">
             Read about what teams are building, technical decisions, and lessons learned
-            on the Ministry of Magic Digital blog.
+            on the Ministry of Justice Digital blog.
           </p>
         </div>
 
@@ -137,6 +137,6 @@ export default function CommunityPage() {
       </div>
 
       <ChatBot />
-    </>
+    </div>
   );
 }

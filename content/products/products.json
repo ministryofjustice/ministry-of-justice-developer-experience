@@ -81,7 +81,7 @@
     "description": "Centralised tooling and support for Ministry of Magic development teams. GitHub organisation management, domain management, and certificate services.",
     "owner": "Operations Engineering",
     "slackChannel": "#operations-engineering",
-    "externalUrl": "https://github.com/totleightowers",
+    "externalUrl": "https://github.com/ministryofjustice",
     "status": "live",
     "tags": ["github", "dns", "certificates", "tooling"]
   },
@@ -96,15 +96,14 @@
     "tags": ["api", "creatures", "data"]
   },
   {
-    "slug": "mom-design-system",
-    "name": "Ministry of Magic Design System",
+    "slug": "moj-design-system",
+    "name": "Ministry of Justice Design Systems",
     "category": "tools",
-    "description": "Design patterns and components for Ministry of Magic services, built for trust, clarity, and mission-critical delivery.",
-    "owner": "Ministry of Magic Design",
-    "docsUrl": "/products/mom-design-system/system",
-    "externalUrl": "/products/mom-design-system/system",
+    "description": "Design patterns and components for Ministry of Justice services, built for trust, clarity, and mission-critical delivery.",
+    "owner": "Ministry of Justice Design",
+    "externalUrl": "https://design-patterns.service.justice.gov.uk/",
     "status": "live",
-    "tags": ["design", "frontend", "patterns", "accessibility"]
+    "tags": ["design", "frontend", "patterns", "accessibility", "design-system", "ui"]
   },
   {
     "slug": "govuk-frontend",

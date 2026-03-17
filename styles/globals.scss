@@ -7,6 +7,11 @@
 
 // Portal-specific overrides
 
+// Remove default main wrapper padding for full-width hero
+.govuk-main-wrapper {
+  padding-top: 0;
+}
+
 // Hero section
 .app-hero {
   background-color: #1d70b8;
@@ -197,42 +202,33 @@
   gap: 20px;
 }
 
-// Filter controls
-.app-filter {
+// Products filter layout
+.app-products-layout {
   margin-bottom: 30px;
 }
 
-.app-filter__buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.app-products-filter-panel {
+  border-top: 4px solid #1d70b8;
+  padding-top: 15px;
+  margin-bottom: 30px;
 }
 
-.app-filter__button {
-  padding: 6px 14px;
-  font-size: 16px;
-  border: 2px solid #b1b4b6;
-  background: #ffffff;
+.app-products-filter-count {
+  margin-left: 4px;
+  color: #505a5f;
+}
+
+.app-products-results-count {
+  color: #505a5f;
+  margin-bottom: 20px;
+}
+
+.app-products-clear-filters {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin-top: 15px;
   cursor: pointer;
-  font-weight: 400;
-
-  &:hover {
-    border-color: #1d70b8;
-    color: #1d70b8;
-  }
-
-  &--active {
-    background: #1d70b8;
-    border-color: #1d70b8;
-    color: white;
-    font-weight: 700;
-
-    &:hover {
-      background: #003078;
-      border-color: #003078;
-      color: white;
-    }
-  }
 }
 
 // Service navigation — override GOV.UK hover/focus underlines
@@ -663,4 +659,147 @@
 
 .mom-fade-pulse {
   animation: momFadePulse 7000ms ease-in-out;
+}
+
+// MoJ Header styles (based on github-community)
+.moj-header {
+  background-color: #0b0c0c;
+  border-bottom: 10px solid #1d70b8;
+  padding-top: 15px;
+}
+
+.moj-header__container {
+  margin: 0 15px;
+  max-width: 960px;
+  position: relative;
+  
+  @media (min-width: 641px) {
+    margin: 0 30px;
+  }
+  
+  @media (min-width: 1020px) {
+    margin: 0 auto;
+  }
+  
+  &:after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+
+.moj-header__logo {
+  float: left;
+  padding-bottom: 5px;
+}
+
+.moj-header__logotype-crest {
+  margin-right: 5px;
+  position: relative;
+  top: -8px;
+  vertical-align: top;
+  filter: brightness(0) invert(1);
+}
+
+.moj-header__link {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #fff;
+  display: inline-block;
+  line-height: 25px;
+  margin-bottom: -1px;
+  overflow: hidden;
+  vertical-align: middle;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  
+  &:link,
+  &:visited,
+  &:hover,
+  &:active {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  &:hover {
+    border-color: #fff;
+  }
+  
+  &:focus {
+    background-color: #ffdd00;
+    box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+    border-color: transparent;
+    color: #0b0c0c;
+    outline: 3px solid transparent;
+    text-decoration: none;
+  }
+}
+
+.moj-header__link--organisation-name {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.1111111111;
+  
+  @media (min-width: 641px) {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+  
+  @media print {
+    font-size: 18pt;
+    line-height: 1.15;
+  }
+  
+  &:hover {
+    border-color: transparent;
+  }
+}
+
+.moj-header__link--service-name {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin-left: 8px;
+  vertical-align: middle;
+  font-size: 1.125rem;
+  line-height: 1.1111111111;
+  
+  @media (min-width: 641px) {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+  
+  @media print {
+    font-size: 18pt;
+    line-height: 1.15;
+  }
+}
+
+// Footer customizations
+.govuk-footer__licence {
+  display: flex;
+  align-items: flex-start;
+  
+  .govuk-footer__licence-logo {
+    flex-shrink: 0;
+    margin-right: 10px;
+  }
+  
+  .govuk-footer__licence-description {
+    display: inline;
+  }
+}
+
+.govuk-footer__link,
+.govuk-footer__licence-description {
+  font-size: 16px;
+}
+
+.govuk-footer__copyright-logo {
+  font-size: 16px;
 }

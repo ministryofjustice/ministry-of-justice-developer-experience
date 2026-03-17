@@ -83,7 +83,7 @@ export default async function DocPage({ params }: { params: Promise<Params> }) {
   ];
 
   return (
-    <>
+    <div className="govuk-width-container">
       <Breadcrumbs items={breadcrumbs} />
 
       <div className="app-layout">
@@ -136,6 +136,6 @@ export default async function DocPage({ params }: { params: Promise<Params> }) {
       </div>
 
       <ChatBot />
-    </>
+    </div>
   );
 }
