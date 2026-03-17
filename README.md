@@ -1,70 +1,153 @@
-# Ministry of Justice Template Repository
+# Ministry of Magic Developer Portal
 
-[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/template-repository/badge)](https://github-community.service.justice.gov.uk/repository-standards/template-repository)
+A cross-government developer portal inspired by [Singapore's Government Developer Portal](https://developer.tech.gov.sg/), built with GOV.UK styles.
 
-This template repository equips you with the default initial files required for a Ministry of Justice GitHub repository.
+**Status:** Alpha — this is a proof of concept.
 
-## Included Files
+## What it does
 
-The repository comes with the following preset files:
+- **Product catalogue** — browse platforms, tools, and APIs available across government (mix of real MoJ platforms and whimsical Ministry of Magic services)
+- **Documentation hub** — technical docs ingested automatically from source repositories (Cloud Platform, Modernisation Platform, Analytical Platform)
+- **Guidelines** — standards and best practices organised by project lifecycle phase, linking out to real cross-government resources (Service Standard, Technology Code of Practice, NCSC guidance, MoJ AI Governance Framework, GOV.UK Design System, and more)
+- **Community** — links to Slack channels, open source, events
+- **AI chatbot** — contextual help assistant (mock responses in alpha)
+- **Full-text search** — powered by [Pagefind](https://pagefind.app/)
+- **Ministry of Magic Design System** — internal easter egg page showcasing a fictional design system for enchanted public services, with a subtle fade animation effect
 
-- LICENSE
-- .gitignore
-- CODEOWNERS
-- dependabot.yml
-- GitHub Actions example files
-- Ministry of Justice Compliance Badge (public repositories only)
+## Tech stack
 
-## Setup Instructions
+| Component | Technology |
+|---|---|
+| Framework | [Next.js 16](https://nextjs.org/) (App Router, static export) |
+| Styles | [GOV.UK Frontend](https://frontend.design-system.service.gov.uk/) v6 + Sass |
+| Content | Markdown with YAML frontmatter |
+| Search | [Pagefind](https://pagefind.app/) (client-side, zero-dependency) |
+| Ingestion | Node.js script that clones repos and converts `.html.md.erb` → `.md` |
+| Hosting | GitHub Pages (static), containerisable for Cloud Platform |
 
-Once you've created your repository using this template, ensure the following steps:
+## Getting started
 
-### Update README
+### Prerequisites
 
-Edit this README.md file to document your project accurately. Take the time to create a clear, engaging, and informative README.md file. Include information like what your project does, how to install and run it, how to contribute, and any other pertinent details.
+- Node.js 22+
+- npm
 
-### Update repository description
+### Run locally
 
-After you've created your repository, GitHub provides a brief description field that appears on the top of your repository's main page. This is a summary that gives visitors quick insight into the project. Using this field to provide a succinct overview of your repository is highly recommended.
+```bash
+# Install dependencies
+npm install
 
-This description and your README.md will be one of the first things people see when they visit your repository. It's a good place to make a strong, concise first impression. Remember, this is often visible in search results on GitHub and search engines, so it's also an opportunity to help people discover your project.
-
-### Grant Team Permissions
-
-Assign permissions to the appropriate Ministry of Justice teams. Ensure at least one team is granted Admin permissions. Whenever possible, assign permissions to teams rather than individual users.
-
-Prefer to user GitHub Teams over individual access to repositories. Where appropriate, ensure GitHub Teams used are related to a Parent Team associated with a Business Unit to help ensure ownership can be easily identified.
-
-### Read about the GitHub repository standards
-
-Familiarise yourself with the Ministry of Justice GitHub Repository Standards. These standards ensure consistency, maintainability, and best practices across all our repositories.
-
-You can find the standards [here](https://github-community.service.justice.gov.uk/repository-standards/guidance).
-
-Please read and understand these standards thoroughly and enable them when you feel comfortable.
-
-### Modify the GitHub Standards Badge
-
-Once you've ensured that all the [GitHub Repository Standards](https://github-community.service.justice.gov.uk/repository-standards/guidance) have been applied to your repository, it's time to update the Ministry of Justice (MoJ) Compliance Badge located in the README file.
-
-The badge demonstrates that your repository is compliant with MoJ's standards.
-
-To update the badge, replace the `template-repository` in the badge URL with your repository's name. The badge URL should look like this:
-
-```markdown
-[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/${your-repository-name}/badge)](https://github-community.service.justice.gov.uk/repository-standards/${your-reposistory-name})
+# Start the dev server
+npm run dev
 ```
 
-**Please note** the badge will not function correctly if your repository is internal or private. In this case, you may remove the badge from your README.
+Open [http://localhost:3000](http://localhost:3000).
 
-### Update CODEOWNERS
+### Ingest real documentation
 
-(Optional) Modify the CODEOWNERS file to specify the teams or users authorized to approve pull requests.
+The portal can pull documentation from external GitHub repositories:
 
-### Configure Dependabot
+```bash
+# Ingest all enabled sources (clones repos, converts docs)
+npm run ingest
 
-Adapt the dependabot.yml file to match your project's [dependency manager](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#package-ecosystem) and to enable [automated pull requests for package updates](https://docs.github.com/en/code-security/supply-chain-security).
+# Preview what would be ingested without writing files
+npm run ingest:dry-run
 
-### Dependency Review
+# Ingest a specific source only
+node scripts/ingest.mjs cloud-platform
 
-If your repository is private with no GitHub Advanced Security license, remove the `.github/workflows/dependency-review.yml` file.
+# Ingest and then build
+npm run ingest:build
+```
+
+Source repos are configured in [`sources.json`](sources.json).
+
+### Build for production
+
+```bash
+npm run build
+```
+
+This runs `next build` followed by Pagefind indexing. Output is in `out/`.
+
+## Content structure
+
+```
+content/
+├── docs/                    # Documentation (auto-generated by ingestion)
+│   ├── cloud-platform/
+│   │   ├── _meta.json       # Source metadata
+│   │   ├── index.md
+│   │   ├── getting-started/
+│   │   └── ...
+│   ├── modernisation-platform/
+│   └── analytical-platform/
+├── products/
+│   └── products.json        # Product catalogue data
+└── guidelines/
+    └── guidelines.json      # Guidelines data (internal + external links)
+```
+
+### Guidelines: internal vs external
+
+Guidelines in `guidelines.json` can be either internal (rendered as portal pages) or external (linked out to the canonical source). An entry with an `externalUrl` field links directly — no internal page is generated.
+
+Current external links:
+
+| Phase | Resource | Source |
+|---|---|---|
+| Inception | [GOV.UK Service Manual](https://www.gov.uk/service-manual) | GDS |
+| Inception | [Service Standard](https://www.gov.uk/service-manual/service-standard) | GDS |
+| Development | [GDS API Technical & Data Standards](https://www.gov.uk/guidance/gds-api-technical-and-data-standards) | GDS |
+| Development | [NCSC Secure Development & Deployment](https://www.ncsc.gov.uk/collection/developers-collection) | NCSC |
+| Technology | [Technology Code of Practice](https://www.gov.uk/guidance/the-technology-code-of-practice) | CDDO |
+| Technology | [GOV.UK Design System](https://design-system.service.gov.uk/) | GDS |
+| Standards | [MoJ AI Governance Framework](https://technical-guidance.service.justice.gov.uk/documentation/governance/ai-governance-framework.html#introduction) | MoJ |
+| Standards | [NCSC Cloud Security Guidance](https://www.ncsc.gov.uk/collection/cloud-security) | NCSC |
+| Measuring | [Measuring service performance](https://www.gov.uk/service-manual/measuring-success) | GDS |
+
+## Ingestion pipeline
+
+The ingestion pipeline (`scripts/ingest.mjs`) does the following:
+
+1. Reads [`sources.json`](sources.json) for the list of doc repositories
+2. Shallow-clones each repo (cached in `.ingestion-cache/`)
+3. Discovers doc files (`.html.md.erb` and `.md`) under the configured `docsPath`
+4. Strips ERB tags and converts tech-docs-template patterns
+5. Enriches frontmatter with `source_repo`, `source_path`, and `ingested_at`
+6. Writes converted `.md` files to `content/docs/<source-id>/`
+
+### Adding a new doc source
+
+1. Add an entry to `sources.json`
+2. Run `npm run ingest:dry-run` to verify discovery
+3. Run `npm run ingest` to pull the docs
+4. The site will automatically include the new source on next build
+
+### Webhook-driven updates
+
+Source repos can trigger re-ingestion automatically using `repository_dispatch`. See [`.github/workflows/notify-portal.yml.example`](.github/workflows/notify-portal.yml.example) for a workflow to add to source repos.
+
+## GitHub Actions
+
+| Workflow | Trigger | Purpose |
+|---|---|---|
+| [`deploy.yml`](.github/workflows/deploy.yml) | Push to main, schedule (6h), manual, webhook | Ingest, build, deploy to GitHub Pages |
+| [`preview.yml`](.github/workflows/preview.yml) | Pull request | Dry-run ingest + build check |
+
+## Deployment
+
+### GitHub Pages (default)
+
+1. Enable GitHub Pages in the repo settings (source: GitHub Actions)
+2. Push to `main` — the deploy workflow handles the rest
+
+### Cloud Platform (containerised)
+
+A `Dockerfile` can be added to serve the `out/` directory with nginx. The static export is fully compatible with container hosting.
+
+## Licence
+
+[MIT](LICENCE)

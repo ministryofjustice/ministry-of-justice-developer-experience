@@ -1,14 +1,38 @@
 # Dependencies
 node_modules/
 
+# Next.js
+.next/
+out/
+next-env.d.ts
+tsconfig.tsbuildinfo
+
 # Environment
 .env
-.terraform/
-coverage/
-venv/
-env/
-.DS_STORE
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+
+# IDE
 .vscode
 *.code-workspace
+
+# Misc
+coverage/
 *.sha256
+.terraform/
 terraform.tfstate
+venv/
+env/
+
+# Ingestion cache
+.ingestion-cache/
+
+# Ingested content (generated at build time)
+content/docs/
+
+#development
+**/python-replica
+node_modules

@@ -1,19 +1,51 @@
 {
   "name": "ministry-of-justice-developer-experience",
   "version": "1.0.0",
-  "description": "Ministry of Justice Developer Experience baseline security and compliance",
+  "description": "Ministry of Justice Developer Experience Portal - Developer portal baseline security and compliance",
   "private": true,
   "scripts": {
-    "validate:all": "npm run validate:md && npm run validate:yml && npm run lint && npm run validate:ts",
-    "validate:md": "markdownlint '**/*.md' --ignore node_modules --ignore dist --config .markdownlint.json --ignore .markdownlintignore",
+    "dev": "next dev",
+    "build": "next build && npx pagefind --site out",
+    "start": "next start",
+    "lint": "next lint",
+    "ingest": "node scripts/ingest.mjs",
+    "ingest:dry-run": "node scripts/ingest.mjs --dry-run",
+    "ingest:build": "node scripts/ingest.mjs && next build && npx pagefind --site out",
+    "validate:all": "npm run validate:md && npm run validate:yml && npm run validate:ts",
+    "validate:md": "markdownlint '**/*.md' --ignore node_modules --ignore dist --ignore out --config .markdownlint.json --ignore .markdownlintignore",
     "validate:yml": "yamllint -c .yamllint.yml '**/*.{yml,yaml}' || echo 'yamllint not configured yet'",
-    "lint": "echo 'TS/JS linting placeholder'",
-    "validate:ts": "echo 'TS validation placeholder'",
+    "validate:ts": "tsc --noEmit",
     "spellcheck": "cspell '**/*' --no-progress --show-suggestions"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ministryofjustice/ministry-of-justice-developer-experience.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ministryofjustice/ministry-of-justice-developer-experience/issues"
+  },
+  "homepage": "https://github.com/ministryofjustice/ministry-of-justice-developer-experience#readme",
+  "dependencies": {
+    "govuk-frontend": "^6.0.0",
+    "gray-matter": "^4.0.3",
+    "next": "^16.1.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "rehype-highlight": "^7.0.2",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
+    "sass": "^1.97.3"
+  },
   "devDependencies": {
-    "cspell": "^8.16.1",
-    "markdownlint-cli": "^0.48.0"
+    "@types/node": "^25.3.2",
+    "@types/react": "^19.2.14",
+    "cspell": "^8.19.4",
+    "markdownlint-cli": "^0.48.0",
+    "pagefind": "^1.4.0",
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=18.0.0"
