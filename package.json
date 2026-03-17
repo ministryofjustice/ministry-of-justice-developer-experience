@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build && npx pagefind --site out",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "npm run validate:ts",
     "ingest": "node scripts/ingest.mjs",
     "ingest:dry-run": "node scripts/ingest.mjs --dry-run",
     "ingest:build": "node scripts/ingest.mjs && next build && npx pagefind --site out",
