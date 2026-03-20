@@ -1,0 +1,20 @@
+# portal.yaml — Example manifest that repos can place in their root
+# to declare documentation they publish to the developer portal.
+#
+# The ingestion pipeline checks for this file first; if absent, it
+# falls back to the settings in sources.json.
+
+name: Cloud Platform User Guide
+description: User guide for the Cloud Platform — Kubernetes-based hosting on AWS.
+category: platform
+owner_slack: "#cloud-platform"
+
+docs:
+  path: source/documentation       # relative path to doc content
+  format: tech-docs-template       # tech-docs-template | markdown | mdx
+  include:                          # glob patterns (relative to docs.path)
+    - "**/*.html.md.erb"
+    - "**/*.md"
+  exclude:
+    - "**/partials/**"
+    - "**/_*"

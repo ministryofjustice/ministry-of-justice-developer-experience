@@ -1,0 +1,178 @@
+[
+  {
+    "slug": "cloud-platform",
+    "name": "Cloud Platform",
+    "category": "platforms",
+    "description": "Kubernetes-based hosting platform on AWS for cloud-native applications. Self-service, with built-in monitoring, logging, and auto-scaling.",
+    "owner": "Cloud Platform team",
+    "slackChannel": "#cloud-platform",
+    "docsUrl": "/docs/cloud-platform",
+    "status": "live",
+    "tags": ["kubernetes", "hosting", "aws", "containers"]
+  },
+  {
+    "slug": "modernisation-platform",
+    "name": "Modernisation Platform",
+    "category": "platforms",
+    "description": "AWS account-based hosting for applications that don't fit Cloud Platform — typically legacy systems and non-containerised workloads.",
+    "owner": "Modernisation Platform team",
+    "slackChannel": "#modernisation-platform",
+    "docsUrl": "/docs/modernisation-platform",
+    "status": "live",
+    "tags": ["aws", "hosting", "ec2", "legacy"]
+  },
+  {
+    "slug": "analytical-platform",
+    "name": "Analytical Platform",
+    "category": "platforms",
+    "description": "Data analysis environment providing RStudio, JupyterHub, and Airflow for data scientists and analysts across the Ministry of Magic.",
+    "owner": "Analytical Platform team",
+    "slackChannel": "#analytical-platform",
+    "docsUrl": "/docs/analytical-platform",
+    "status": "live",
+    "tags": ["data", "analytics", "python", "r"]
+  },
+  {
+    "slug": "govuk-pay",
+    "name": "GOV.UK Pay",
+    "category": "apis",
+    "description": "Take and process payments for government services. RESTful API with sandbox environment for testing.",
+    "owner": "GDS",
+    "slackChannel": "#govuk-pay",
+    "externalUrl": "https://www.payments.service.gov.uk/",
+    "status": "live",
+    "tags": ["payments", "api", "gds"]
+  },
+  {
+    "slug": "govuk-notify",
+    "name": "GOV.UK Notify",
+    "category": "apis",
+    "description": "Send emails, text messages, and letters to users of your service. Free for government teams.",
+    "owner": "GDS",
+    "slackChannel": "#govuk-notify",
+    "externalUrl": "https://www.notifications.service.gov.uk/",
+    "status": "live",
+    "tags": ["notifications", "email", "sms", "api", "gds"]
+  },
+  {
+    "slug": "spellcheck-auth",
+    "name": "SpellCheck Auth",
+    "category": "apis",
+    "description": "OAuth2 authentication and authorisation service for Ministry of Magic digital services. Provides JWT tokens and role-based access control.",
+    "owner": "Magical Security",
+    "slackChannel": "#spellcheck-auth",
+    "status": "live",
+    "tags": ["authentication", "oauth2", "security"]
+  },
+  {
+    "slug": "template-deploy",
+    "name": "Template Deploy",
+    "category": "tools",
+    "description": "Standardised deployment templates and GitHub Actions workflows for Ministry of Magic services. CI/CD pipelines as code.",
+    "owner": "Operations Engineering",
+    "slackChannel": "#operations-engineering",
+    "status": "live",
+    "tags": ["ci-cd", "deployment", "github-actions"]
+  },
+  {
+    "slug": "operations-engineering",
+    "name": "Operations Engineering",
+    "category": "tools",
+    "description": "Centralised tooling and support for Ministry of Magic development teams. GitHub organisation management, domain management, and certificate services.",
+    "owner": "Operations Engineering",
+    "slackChannel": "#operations-engineering",
+    "externalUrl": "https://github.com/ministryofjustice",
+    "status": "live",
+    "tags": ["github", "dns", "certificates", "tooling"]
+  },
+  {
+    "slug": "creature-registry-api",
+    "name": "Creature Registry API",
+    "category": "apis",
+    "description": "RESTful API providing access to the magical creature registry for Ministry of Magic digital services.",
+    "owner": "Magical Creatures",
+    "slackChannel": "#creature-registry",
+    "status": "live",
+    "tags": ["api", "creatures", "data"]
+  },
+  {
+    "slug": "moj-design-system",
+    "name": "Ministry of Justice Design Systems",
+    "category": "tools",
+    "description": "Design patterns and components for Ministry of Justice services, built for trust, clarity, and mission-critical delivery.",
+    "owner": "Ministry of Justice Design",
+    "externalUrl": "https://design-patterns.service.justice.gov.uk/",
+    "status": "live",
+    "tags": ["design", "frontend", "patterns", "accessibility", "design-system", "ui"]
+  },
+  {
+    "slug": "govuk-frontend",
+    "name": "GOV.UK Frontend",
+    "category": "tools",
+    "description": "Implementation docs for the GOV.UK Design System components and styles.",
+    "owner": "GDS",
+    "externalUrl": "https://frontend.design-system.service.gov.uk/",
+    "status": "live",
+    "tags": ["design", "frontend", "components", "accessibility"]
+  },
+  {
+    "slug": "govuk-prototype-kit",
+    "name": "GOV.UK Prototype Kit",
+    "category": "tools",
+    "description": "Rapid prototyping toolkit for GOV.UK services.",
+    "owner": "GDS",
+    "externalUrl": "https://prototype-kit.service.gov.uk/docs/",
+    "status": "live",
+    "tags": ["prototyping", "design", "frontend"]
+  },
+  {
+    "slug": "govuk-forms",
+    "name": "GOV.UK Forms",
+    "category": "tools",
+    "description": "No-code form builder for government services.",
+    "owner": "GDS",
+    "externalUrl": "https://www.forms.service.gov.uk/",
+    "status": "live",
+    "tags": ["forms", "no-code", "service-design"]
+  },
+  {
+    "slug": "potion-pricing-api",
+    "name": "Potion Pricing API",
+    "category": "apis",
+    "description": "API for calculating potion ingredient costs. Used by potion suppliers and internal services.",
+    "owner": "Potions Digital",
+    "slackChannel": "#potion-pricing",
+    "status": "live",
+    "tags": ["api", "potions", "fees"]
+  },
+  {
+    "slug": "secure-pipelines",
+    "name": "Secure CI/CD Pipelines",
+    "category": "security",
+    "description": "Security-hardened CI/CD pipeline templates with SAST, DAST, dependency scanning, and container image scanning built in.",
+    "owner": "Security Engineering",
+    "slackChannel": "#security-engineering",
+    "status": "beta",
+    "tags": ["security", "ci-cd", "scanning", "devsecops"]
+  },
+  {
+    "slug": "wardwall",
+    "name": "WardWall",
+    "category": "security",
+    "description": "Perimeter defence layer for Ministry services. Provides automated threat detection, hex-pattern filtering, and real-time containment breach alerts across all registered endpoints.",
+    "owner": "Arcane Security Operations",
+    "slackChannel": "#wardwall",
+    "status": "live",
+    "tags": ["security", "firewall", "threat-detection", "monitoring"]
+  },
+  {
+    "slug": "grimoire-vault",
+    "name": "Grimoire Vault",
+    "category": "security",
+    "description": "Secrets management and credential rotation service. Stores enchantment keys, ward tokens, and API credentials with automatic expiry enforcement and full audit logging.",
+    "owner": "Arcane Security Operations",
+    "slackChannel": "#grimoire-vault",
+    "status": "live",
+    "tags": ["security", "secrets", "credentials", "encryption"]
+  }
+]
