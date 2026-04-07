@@ -1,124 +1,106 @@
-# Product Template Contract (v1)
+# Product Template Contract
 
-Status: Draft v1
-Owner: Developer Experience
-Applies to: Product and service detail pages shown in the Products section.
+Status: Draft v1  
+Owner: Developer Experience  
+Applies to: Product and service detail pages under `/products`.
 
-## Purpose and user need
+## Purpose
 
-Product pages help developers quickly answer:
+Product pages should answer four questions quickly:
 
-- What is this product/service?
-- Is it live and safe to use?
+- What is this product?
+- Who is it for?
 - Who owns it?
-- Where do I go next for docs, access, or support?
+- Where should I go next?
 
-This template standardises structure so contributors can publish consistent product pages with minimal friction.
+## Current implementation in this repo
 
-## Required sections
+Products are currently defined in `content/products/products.json` and rendered by:
 
-1. Header
+- `app/products/page.tsx` for the index
+- `app/products/[slug]/page.tsx` for the detail page
 
-   - Product title
-   - Category tag
-   - Status tag
-   - Owner
-   - Summary description
+Current live fields in `products.json` are:
 
-2. Core details
+- `slug`
+- `name`
+- `category`
+- `description`
+- `owner`
+- `status`
+- `tags`
+- optional `slackChannel`
+- optional `docsUrl`
+- optional `externalUrl`
 
-   - What the product does (short value statement)
-   - Who should use it
-   - Scope/coverage (what it does and does not include)
+Current field mapping to the target contract:
 
-3. Access and links
+- `name` -> `title`
+- `description` -> `summary`
+- `docsUrl` and `externalUrl` -> `primaryLinks[]`
+- `slackChannel` -> `supportChannel`
 
-   - At least one primary action link (documentation or service)
-   - Any prerequisites or access constraints
+This matters because contributors update `products.json` today, even though the longer-term contract below uses more consistent names.
 
-4. Metadata bar
+## Target page contract
 
-   - Owner
-   - Status
-   - Last reviewed date
-   - Review cadence
+Required sections:
 
-## Optional sections
+1. Header: title, category, status, owner, summary
+2. Core details: what it does, who should use it, scope
+3. Primary actions: at least one next step
+4. Metadata: owner, status, review information when available
 
-- Slack/support channel
-- Tags/topics
+Optional sections:
+
+- Slack or support channel
+- Tags
 - Usage examples
-- Known limitations
-- Security/compliance notes
-- Related products/services
-- Change notes/changelog links
+- Limitations
+- Security or compliance notes
+- Related products
 - Feedback prompt
 
-Optional sections are encouraged where information exists. Missing optional sections must not block publishing.
+## Target metadata model
 
-## Required metadata fields
+Required:
 
 - `slug` (string)
 - `title` (string)
 - `summary` (string)
 - `category` (string)
 - `owner` (string)
-- `status` (enum: `live` | `beta` | `alpha`)
-- `primaryLinks` (array, minimum one item)
+- `status` (`live` | `beta` | `alpha`)
+- `primaryLinks` (array, at least one item)
 
-Recommended metadata fields:
+Recommended:
 
-- `lastReviewedOn` (ISO date string)
-- `reviewIn` (human-readable cadence, for example `6 months`)
+- `lastReviewedOn` (ISO date)
+- `reviewIn` (for example `6 months`)
 - `tags` (string array)
 - `supportChannel` (string)
-- `pageType` (string, recommended value `product`)
+- `pageType` (`product`)
 
 ## Content guidance
 
 Do:
 
-- Use a clear service name and plain language summary.
-- Include one obvious next action.
-- Make ownership explicit and current.
-- Keep status honest (alpha/beta/live).
-- Add review metadata so stale pages are visible.
+- Use a plain-language summary.
+- Make the next action obvious.
+- Keep ownership specific.
+- Keep status honest.
 
 Do not:
 
-- Duplicate long docs content on the product page.
-- Use marketing language without concrete capability detail.
-- Publish without at least one actionable link.
-- Hide ownership behind vague team names.
+- Turn the page into full documentation.
+- Use vague marketing language.
+- Publish without a useful link.
 
-## Minimum viable product page (MVP)
+## MVP
 
-A contributor can publish with only:
+The minimum useful product page is:
 
-- Header with title/category/status/owner/summary
-- One short core details section
-- One primary link (docs or service)
-- Metadata bar with owner and status
-
-This defines the lowest acceptable quality bar for fast delivery.
-
-## Example skeleton
-
-```md
-# Product title
-Category: Platform
-Status: Live
-Owner: Cloud Platform team
-
-Summary: One paragraph explaining what this product is for and when to use it.
-
-## What this product does
-A short capability description.
-
-## Access and links
-- View documentation: /docs/cloud-platform
-
-## Metadata
-- Last reviewed: 2026-04-01
-- Review cadence: 6 months
-```
+- title, category, status, owner, summary
+- one short description section
+- one action link
+- owner and status metadata
