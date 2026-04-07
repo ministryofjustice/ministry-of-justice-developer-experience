@@ -40,7 +40,7 @@ export default function DocsIndex() {
             to pull in documentation from source repositories:
           </p>
           <pre>
-            <code>npx tsx scripts/ingest.ts</code>
+            <code>npm run ingest</code>
           </pre>
         </div>
       )}
