@@ -1,6 +1,7 @@
 {
   "ignorePaths": [
     "dist/",
+    "out/",
     "content/docs/**",
     "**/node_modules/**",
     "**/*.drawio",
