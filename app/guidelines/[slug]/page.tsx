@@ -132,27 +132,27 @@ const phaseLabels: Record<string, string> = {
 type Params = { slug: string };
 
 export function generateStaticParams() {
-  return guidelines
-    .filter((g) => !('externalUrl' in g && (g as Record<string, unknown>).externalUrl))
-    .map((g) => ({ slug: g.slug }));
+  return guidelines.items.filter((g) => !g.externalUrl).map((g) => ({ slug: g.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
-  const guideline = guidelines.find((g) => g.slug === slug);
+  const guideline = guidelines.items.find((g) => g.slug === slug);
   if (!guideline) return {};
   return { title: guideline.title };
 }
 
 export default async function GuidelineDetailPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
-  const guideline = guidelines.find((g) => g.slug === slug);
+  const guideline = guidelines.items.find((g) => g.slug === slug);
 
   if (!guideline) {
     notFound();
   }
 
-  const content = guidelineContent[guideline.slug] || `
+  const content =
+    guidelineContent[guideline.slug] ||
+    `
 ## ${guideline.title}
 
 This guideline is coming soon. Content is being developed.
@@ -167,10 +167,7 @@ If you have questions, reach out to the ${guideline.owner} team.
   return (
     <div className="govuk-width-container">
       <Breadcrumbs
-        items={[
-          { label: 'Guidelines', href: '/guidelines' },
-          { label: guideline.title },
-        ]}
+        items={[{ label: guidelines.title, href: '/guidelines' }, { label: guideline.title }]}
       />
 
       <div className="govuk-grid-row">
@@ -181,7 +178,10 @@ If you have questions, reach out to the ${guideline.owner} team.
             titleClassName="govuk-heading-xl govuk-!-margin-top-2 govuk-!-margin-bottom-2"
           />
 
-          <div className="app-prose-scope" dangerouslySetInnerHTML={{ __html: simpleMarkdown(content) }} />
+          <div
+            className="app-prose-scope"
+            dangerouslySetInnerHTML={{ __html: simpleMarkdown(content) }}
+          />
 
           <MetaBar
             items={[
@@ -189,7 +189,10 @@ If you have questions, reach out to the ${guideline.owner} team.
                 label: 'Last reviewed',
                 value: formatLongDate(guideline.lastReviewedOn),
               },
-              { label: 'Review status', value: <ReviewBadge status={reviewStatus as ReviewStatus} /> },
+              {
+                label: 'Review status',
+                value: <ReviewBadge status={reviewStatus as ReviewStatus} />,
+              },
               { label: 'Owner', value: guideline.owner },
             ]}
           />
@@ -221,7 +224,9 @@ function simpleMarkdown(md: string): string {
         i++;
       }
       i++; // skip closing ```
-      out.push(`<pre class="app-code-block"><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`);
+      out.push(
+        `<pre class="app-code-block"><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`,
+      );
       continue;
     }
 

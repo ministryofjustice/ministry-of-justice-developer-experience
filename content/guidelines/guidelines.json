@@ -1,4 +1,8 @@
-[
+{
+  "title": "Guidelines",
+  "summary": "Standards and best practices organised by project lifecycle. Follow these guidelines to build services that meet Ministry of Justice and cross-government expectations.",
+  "items":
+  [
   {
     "slug": "choosing-hosting",
     "title": "Choosing a hosting platform",
@@ -179,4 +183,4 @@
     "reviewIn": "6 months",
     "externalUrl": "https://www.gov.uk/service-manual/measuring-success"
   }
-]
+]}
