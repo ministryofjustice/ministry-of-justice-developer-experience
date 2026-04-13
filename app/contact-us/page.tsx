@@ -47,16 +47,17 @@ export default function ContactPage() {
               <strong>Email:</strong> <>{item.linkText}</>
             </p>
           ) : (
-            <a
+            <Link
               href={item.href}
               className="govuk-link govuk-link--no-visited-state"
               target="_blank"
               rel="noopener noreferrer"
             >
               {item.linkText}
-              <span className="govuk-visually-hidden"> (opens in a new tab) </span>
-            </a>
+            </Link>
           )}
+
+          <span className="govuk-visually-hidden"> (opens in a new tab) </span>
         </section>
       ))}
 
