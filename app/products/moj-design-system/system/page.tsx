@@ -20,7 +20,7 @@ export default function MojDesignSystemPage() {
       <h1 className="govuk-heading-xl">Ministry of Justice Design System</h1>
       <p className="govuk-body-l" data-mom-fade-target="intro">
         The unified pattern library for enchanted public services — field-tested across
-        ward licensing, creature registration, and interdimensional border control.
+        ward licensing, service registration, and interdimensional border control.
         Every component here has survived a containment breach drill.
       </p>
 
