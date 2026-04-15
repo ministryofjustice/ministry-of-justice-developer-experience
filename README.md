@@ -119,6 +119,17 @@ root/
 │   ├── components/
 │   └── lib/
 
+### Common local commands
+
+You can use the `Makefile` for common tasks:
+
+```bash
+make install
+make ingest
+make build
+make docker-build IMAGE_URI=local/ministry-of-justice-developer-portal:dev
+make k8s-apply-dev IMAGE_URI=<your-ecr-image-uri>
+make smoke-dev
 ```
 
 ## Content structure
@@ -174,19 +185,16 @@ Source repos can trigger re-ingestion automatically using `repository_dispatch`.
 
 | Workflow | Trigger | Purpose |
 |---|---|---|
-| [`deploy.yml`](.github/workflows/deploy.yml) | Push to main, schedule (6h), manual, webhook | Ingest, build, deploy to GitHub Pages |
+| [`ingest.yml`](.github/workflows/ingest.yml) | Schedule (6h), manual, webhook | Ingest external docs and commit updates |
+| [`deploy-dev.yml`](.github/workflows/deploy-dev.yml) | Push to main, manual | Build image, push to ECR, deploy to dev namespace |
+| [`deploy-prod.yml`](.github/workflows/deploy-prod.yml) | Manual | Build image, push to ECR, deploy to prod namespace |
 | [`preview.yml`](.github/workflows/preview.yml) | Pull request | Dry-run ingest + build check |
 
 ## Deployment
 
-### GitHub Pages (default)
-
-1. Enable GitHub Pages in the repo settings (source: GitHub Actions)
-2. Push to `main` — the deploy workflow handles the rest
-
 ### Cloud Platform (containerised)
 
-A `Dockerfile` can be added to serve the `out/` directory with nginx. The static export is fully compatible with container hosting.
+This repository deploys to Cloud Platform via dedicated dev and prod GitHub workflows. The container image is built from the included `Dockerfile`, pushed to ECR, and deployed to Kubernetes using environment-scoped credentials.
 
 ## Licence
 
