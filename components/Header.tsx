@@ -27,13 +27,13 @@ export function Header() {
               width="40"
               height="40"
             />
-            <a href="/" className="moj-header__link moj-header__link--organisation-name">
+            <Link href="/" className="moj-header__link moj-header__link--organisation-name">
               Ministry of Justice
-            </a>
+            </Link>
 
-            <a href="/" className="moj-header__link moj-header__link--service-name">
+            <Link href="/" className="moj-header__link moj-header__link--service-name">
               Developer portal
-            </a>
+            </Link>
           </div>
         </div>
       </header>

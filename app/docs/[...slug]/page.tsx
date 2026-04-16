@@ -58,8 +58,8 @@ export default async function DocPage({ params }: { params: Promise<Params> }) {
   const page = getDocPage(slug);
   if (!page) notFound();
 
-  const htmlContent = await markdownToHtml(page.content);
   const sourceSlug = slug[0];
+  const htmlContent = await markdownToHtml(page.content, { sourceSlug, currentSlug: slug });
   const sources = getDocSources();
   const currentSource = sources.find((s) => s.slug === sourceSlug);
 
