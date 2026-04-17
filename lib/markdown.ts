@@ -7,6 +7,8 @@ type DocsLinkContext = {
   currentSlug: string[];
 };
 
+const BASE_PATH = normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH || '');
+
 const DOC_MARKDOWN_EXTENSIONS = new Set(['md', 'markdown', 'html', 'htm']);
 const DOC_ASSET_EXTENSIONS = new Set([
   'png',
@@ -40,7 +42,8 @@ export async function markdownToHtml(markdown: string, docsLinkContext?: DocsLin
   }
 
   const withAnchorLinks = rewriteDocAnchorLinks(htmlOutput, docsLinkContext);
-  return rewriteDocAssetSources(withAnchorLinks, docsLinkContext);
+  const withAssetLinks = rewriteDocAssetSources(withAnchorLinks, docsLinkContext);
+  return normalizeMalformedDocsPathsInHtml(withAssetLinks);
 }
 
 function rewriteDocAnchorLinks(htmlContent: string, docsLinkContext: DocsLinkContext): string {
@@ -56,10 +59,23 @@ function rewriteDocHref(href: string, docsLinkContext: DocsLinkContext): string 
     href.startsWith('mailto:') ||
     href.startsWith('tel:') ||
     href.startsWith('//') ||
-    /^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(href) ||
-    href.startsWith('/docs/')
+    /^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(href)
   ) {
     return href;
+  }
+
+  if (href.startsWith('/')) {
+    const hrefWithoutBase = stripBasePath(href);
+
+    if (hrefWithoutBase.startsWith('/docs/')) {
+      return withBasePath(normalizeMalformedDocsHref(hrefWithoutBase));
+    }
+    if (hrefWithoutBase.startsWith('/assets/')) {
+      return withBasePath(hrefWithoutBase);
+    }
+    if (isBasePathPrefixed(href)) {
+      return href;
+    }
   }
 
   const [pathPart, suffix] = splitHrefSuffix(href);
@@ -82,11 +98,20 @@ function rewriteDocHref(href: string, docsLinkContext: DocsLinkContext): string 
     return href;
   }
 
-  return normalizedPath ? `/docs/${docsLinkContext.sourceSlug}/${normalizedPath}${suffix}` : `/docs/${docsLinkContext.sourceSlug}${suffix}`;
+  const rewrittenPath = normalizedPath
+    ? `/docs/${docsLinkContext.sourceSlug}/${normalizedPath}${suffix}`
+    : `/docs/${docsLinkContext.sourceSlug}${suffix}`;
+  return withBasePath(rewrittenPath);
 }
 
 function rewriteDocAssetSources(htmlContent: string, docsLinkContext: DocsLinkContext): string {
   return htmlContent.replace(/src="([^"]+)"/g, (_full, src: string) => {
+    if (src.startsWith('/') && !isBasePathPrefixed(src)) {
+      if (src.startsWith('/docs/') || src.startsWith('/assets/')) {
+        return `src="${withBasePath(src)}"`;
+      }
+    }
+
     const [pathPart, suffix] = splitHrefSuffix(src);
     if (!pathPart) {
       return `src="${src}"`;
@@ -125,7 +150,7 @@ function rewriteAssetPath(pathPart: string, suffix: string, docsLinkContext: Doc
     return null;
   }
 
-  return `/docs/${docsLinkContext.sourceSlug}/${normalized}${suffix}`;
+  return withBasePath(`/docs/${docsLinkContext.sourceSlug}/${normalized}${suffix}`);
 }
 
 function splitHrefSuffix(href: string): [string, string] {
@@ -192,6 +217,47 @@ function normalizePathSegments(segments: string[]): string[] {
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function normalizeBasePath(value: string): string {
+  if (!value || value === '/') {
+    return '';
+  }
+  return value.replace(/\/+$/, '');
+}
+
+function isBasePathPrefixed(urlPath: string): boolean {
+  if (!BASE_PATH) {
+    return false;
+  }
+  return urlPath === BASE_PATH || urlPath.startsWith(`${BASE_PATH}/`);
+}
+
+function withBasePath(urlPath: string): string {
+  if (!urlPath.startsWith('/') || !BASE_PATH || isBasePathPrefixed(urlPath)) {
+    return urlPath;
+  }
+  return `${BASE_PATH}${urlPath}`;
+}
+
+function stripBasePath(urlPath: string): string {
+  if (!BASE_PATH || !isBasePathPrefixed(urlPath)) {
+    return urlPath;
+  }
+  const trimmed = urlPath.slice(BASE_PATH.length);
+  return trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
+}
+
+function normalizeMalformedDocsHref(href: string): string {
+  const match = href.match(/^\/docs\/([^/]+)\/documentation\/(.+)$/);
+  if (!match) {
+    return href;
+  }
+  return `/docs/${match[1]}/${match[2]}`;
+}
+
+function normalizeMalformedDocsPathsInHtml(htmlContent: string): string {
+  return htmlContent.replace(/\/docs\/([^/"?#]+)\/documentation\//g, '/docs/$1/');
 }
 
 function addHeadingIds(htmlContent: string): string {
