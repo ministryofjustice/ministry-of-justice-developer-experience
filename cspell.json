@@ -34,8 +34,7 @@
     "scrying",
     "katex",
     "SLSA",
-    "gomod",
-    "Bsed"
+    "gomod"
   ],
   "dictionaries": ["en-gb", "companies", "softwareTerms", "misc", "lorem-ipsum", "typescript", "node", "bash", "npm"],
   "languageSettings": [
