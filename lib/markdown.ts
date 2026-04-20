@@ -7,6 +7,8 @@ type DocsLinkContext = {
   currentSlug: string[];
 };
 
+const BASE_PATH = normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH || '');
+
 const DOC_MARKDOWN_EXTENSIONS = new Set(['md', 'markdown', 'html', 'htm']);
 const DOC_ASSET_EXTENSIONS = new Set([
   'png',
@@ -32,15 +34,16 @@ const DOC_ASSET_EXTENSIONS = new Set([
 ]);
 
 export async function markdownToHtml(markdown: string, docsLinkContext?: DocsLinkContext): Promise<string> {
-  const result = await remark().use(remarkGfm).use(remarkHeadingIds).use(html).process(markdown);
-  const htmlOutput = result.toString();
+  const result = await remark().use(remarkGfm).use(html).process(markdown);
+  const htmlOutput = addHeadingIds(result.toString());
 
   if (!docsLinkContext) {
     return htmlOutput;
   }
 
   const withAnchorLinks = rewriteDocAnchorLinks(htmlOutput, docsLinkContext);
-  return rewriteDocAssetSources(withAnchorLinks, docsLinkContext);
+  const withAssetLinks = rewriteDocAssetSources(withAnchorLinks, docsLinkContext);
+  return normalizeMalformedDocsPathsInHtml(withAssetLinks);
 }
 
 function rewriteDocAnchorLinks(htmlContent: string, docsLinkContext: DocsLinkContext): string {
@@ -51,15 +54,35 @@ function rewriteDocAnchorLinks(htmlContent: string, docsLinkContext: DocsLinkCon
 }
 
 function rewriteDocHref(href: string, docsLinkContext: DocsLinkContext): string {
+  const rewrittenAbsoluteDocsHref = rewriteAbsoluteGithubPagesDocsHref(href);
+  if (rewrittenAbsoluteDocsHref) {
+    return rewrittenAbsoluteDocsHref;
+  }
+
   if (
     href.startsWith('#') ||
     href.startsWith('mailto:') ||
     href.startsWith('tel:') ||
     href.startsWith('//') ||
-    /^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(href) ||
-    href.startsWith('/docs/')
+    /^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(href)
   ) {
     return href;
+  }
+
+  if (href.startsWith('/')) {
+    const [hrefPath, suffix] = splitHrefSuffix(href);
+    const hrefWithoutBase = stripBasePath(hrefPath);
+
+    if (hrefWithoutBase.startsWith('/docs/')) {
+      const normalizedDocsPath = ensureDocsTrailingSlash(normalizeMalformedDocsHref(hrefWithoutBase));
+      return `${withBasePath(normalizedDocsPath)}${suffix}`;
+    }
+    if (hrefWithoutBase.startsWith('/assets/')) {
+      return `${withBasePath(hrefWithoutBase)}${suffix}`;
+    }
+    if (isBasePathPrefixed(href)) {
+      return href;
+    }
   }
 
   const [pathPart, suffix] = splitHrefSuffix(href);
@@ -82,11 +105,20 @@ function rewriteDocHref(href: string, docsLinkContext: DocsLinkContext): string 
     return href;
   }
 
-  return normalizedPath ? `/docs/${docsLinkContext.sourceSlug}/${normalizedPath}${suffix}` : `/docs/${docsLinkContext.sourceSlug}${suffix}`;
+  const rewrittenPath = normalizedPath
+    ? `/docs/${docsLinkContext.sourceSlug}/${normalizedPath}`
+    : `/docs/${docsLinkContext.sourceSlug}`;
+  return `${withBasePath(ensureDocsTrailingSlash(rewrittenPath))}${suffix}`;
 }
 
 function rewriteDocAssetSources(htmlContent: string, docsLinkContext: DocsLinkContext): string {
   return htmlContent.replace(/src="([^"]+)"/g, (_full, src: string) => {
+    if (src.startsWith('/') && !isBasePathPrefixed(src)) {
+      if (src.startsWith('/docs/') || src.startsWith('/assets/')) {
+        return `src="${withBasePath(src)}"`;
+      }
+    }
+
     const [pathPart, suffix] = splitHrefSuffix(src);
     if (!pathPart) {
       return `src="${src}"`;
@@ -125,7 +157,7 @@ function rewriteAssetPath(pathPart: string, suffix: string, docsLinkContext: Doc
     return null;
   }
 
-  return `/docs/${docsLinkContext.sourceSlug}/${normalized}${suffix}`;
+  return withBasePath(`/docs/${docsLinkContext.sourceSlug}/${normalized}${suffix}`);
 }
 
 function splitHrefSuffix(href: string): [string, string] {
@@ -194,54 +226,146 @@ function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-type MarkdownNode = {
-  type?: string;
-  value?: string;
-  children?: MarkdownNode[];
-  data?: {
-    hProperties?: Record<string, unknown>;
-  };
-};
-
-function remarkHeadingIds() {
-  return (tree: MarkdownNode) => {
-    walkNodes(tree, (node) => {
-      if (node.type !== 'heading') {
-        return;
-      }
-
-      const text = extractText(node).trim();
-      const id = slugify(text);
-      if (!id) {
-        return;
-      }
-
-      node.data = node.data || {};
-      node.data.hProperties = {
-        ...(node.data.hProperties || {}),
-        id,
-      };
-    });
-  };
+function normalizeBasePath(value: string): string {
+  if (!value || value === '/') {
+    return '';
+  }
+  return value.replace(/\/+$/, '');
 }
 
-function walkNodes(node: MarkdownNode, visit: (node: MarkdownNode) => void): void {
-  visit(node);
-  for (const child of node.children || []) {
-    walkNodes(child, visit);
+function isBasePathPrefixed(urlPath: string): boolean {
+  if (!BASE_PATH) {
+    return false;
   }
+  return urlPath === BASE_PATH || urlPath.startsWith(`${BASE_PATH}/`);
 }
 
-function extractText(node: MarkdownNode): string {
-  if (typeof node.value === 'string') {
-    return node.value;
+function withBasePath(urlPath: string): string {
+  if (!urlPath.startsWith('/') || !BASE_PATH || isBasePathPrefixed(urlPath)) {
+    return urlPath;
+  }
+  return `${BASE_PATH}${urlPath}`;
+}
+
+function stripBasePath(urlPath: string): string {
+  if (!BASE_PATH || !isBasePathPrefixed(urlPath)) {
+    return urlPath;
+  }
+  const trimmed = urlPath.slice(BASE_PATH.length);
+  return trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
+}
+
+function normalizeMalformedDocsHref(href: string): string {
+  const match = href.match(/^\/docs\/([^/]+)\/documentation\/(.+)$/);
+  if (!match) {
+    return href;
+  }
+  return `/docs/${match[1]}/${match[2]}`;
+}
+
+function rewriteAbsoluteGithubPagesDocsHref(href: string): string | null {
+  let parsed: URL;
+
+  try {
+    parsed = new URL(href);
+  } catch {
+    return null;
   }
 
+  if (parsed.hostname !== 'ministryofjustice.github.io') {
+    return null;
+  }
+
+  let docsPathname = parsed.pathname;
+
+  if (BASE_PATH && docsPathname.startsWith(`${BASE_PATH}/docs/`)) {
+    docsPathname = stripBasePath(docsPathname);
+  } else {
+    const repoScopedDocsMatch = docsPathname.match(/^\/[^/]+\/docs(\/.*)?$/);
+    if (repoScopedDocsMatch) {
+      docsPathname = `/docs${repoScopedDocsMatch[1] || ''}`;
+    }
+  }
+
+  if (!docsPathname.startsWith('/docs/')) {
+    return null;
+  }
+
+  const normalizedDocsPath = ensureDocsTrailingSlash(normalizeMalformedDocsHref(docsPathname));
+  return `${withBasePath(normalizedDocsPath)}${parsed.search}${parsed.hash}`;
+}
+
+function ensureDocsTrailingSlash(path: string): string {
+  if (!path.startsWith('/docs/')) {
+    return path;
+  }
+
+  if (path.endsWith('/')) {
+    return path;
+  }
+
+  const lastSegment = path.split('/').pop() || '';
+  if (lastSegment.includes('.')) {
+    return path;
+  }
+
+  return `${path}/`;
+}
+
+function normalizeMalformedDocsPathsInHtml(htmlContent: string): string {
+  return htmlContent.replace(/\/docs\/([^/"?#]+)\/documentation\//g, '/docs/$1/');
+}
+
+function addHeadingIds(htmlContent: string): string {
+  return htmlContent.replace(/<(h[1-6])>([\s\S]*?)<\/\1>/g, (_full, tag: string, inner: string) => {
+    const text = extractTextFromHtmlFragment(inner);
+    const id = slugify(text);
+    if (!id) {
+      return `<${tag}>${inner}</${tag}>`;
+    }
+    return `<${tag} id="${id}">${inner}</${tag}>`;
+  });
+}
+
+function extractTextFromHtmlFragment(fragment: string): string {
   let output = '';
-  for (const child of node.children || []) {
-    output += extractText(child);
+  let inTag = false;
+
+  for (const char of fragment) {
+    if (char === '<') {
+      inTag = true;
+      continue;
+    }
+    if (char === '>') {
+      inTag = false;
+      continue;
+    }
+    if (!inTag) {
+      output += char;
+    }
   }
-  return output;
+
+  return decodeHtmlEntities(output).trim();
+}
+
+function decodeHtmlEntities(value: string): string {
+  return value.replace(/&(?:amp|lt|gt|quot|#39|#x27);/gi, (entity) => {
+    switch (entity.toLowerCase()) {
+      case '&amp;':
+        return '&';
+      case '&lt;':
+        return '<';
+      case '&gt;':
+        return '>';
+      case '&quot;':
+        return '"';
+      case '&#39;':
+      case '&#x27;':
+        return "'";
+      default:
+        return entity;
+    }
+  });
 }
 
 function slugify(value: string): string {
