@@ -318,12 +318,53 @@ function normalizeMalformedDocsPathsInHtml(htmlContent: string): string {
 
 function addHeadingIds(htmlContent: string): string {
   return htmlContent.replace(/<(h[1-6])>([\s\S]*?)<\/\1>/g, (_full, tag: string, inner: string) => {
-    const text = inner.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').trim();
+    const text = extractTextFromHtmlFragment(inner);
     const id = slugify(text);
     if (!id) {
       return `<${tag}>${inner}</${tag}>`;
     }
     return `<${tag} id="${id}">${inner}</${tag}>`;
+  });
+}
+
+function extractTextFromHtmlFragment(fragment: string): string {
+  let output = '';
+  let inTag = false;
+
+  for (const char of fragment) {
+    if (char === '<') {
+      inTag = true;
+      continue;
+    }
+    if (char === '>') {
+      inTag = false;
+      continue;
+    }
+    if (!inTag) {
+      output += char;
+    }
+  }
+
+  return decodeHtmlEntities(output).trim();
+}
+
+function decodeHtmlEntities(value: string): string {
+  return value.replace(/&(?:amp|lt|gt|quot|#39|#x27);/gi, (entity) => {
+    switch (entity.toLowerCase()) {
+      case '&amp;':
+        return '&';
+      case '&lt;':
+        return '<';
+      case '&gt;':
+        return '>';
+      case '&quot;':
+        return '"';
+      case '&#39;':
+      case '&#x27;':
+        return "'";
+      default:
+        return entity;
+    }
   });
 }
 
