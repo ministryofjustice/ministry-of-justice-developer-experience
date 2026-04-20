@@ -591,3 +591,25 @@ Without CODEOWNERS, Dependabot PRs have no required reviewers and can be merged 
 - [GitHub Dependabot Documentation](https://docs.github.com/en/code-security/dependabot)
 - [Dependabot Configuration Options](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)
 - [Semantic Versioning (semver.org)](https://semver.org/)
+
+## Text style tests
+
+> [!NOTE] this is a note
+
+message
+
+> [!TIP] this is a tip
+
+message
+
+> [!IMPORTANT] this is important
+
+message
+
+> [!CAUTION] this is a caution
+
+message
+
+> [!WARNING] this is a warning
+
+message
