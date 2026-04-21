@@ -617,6 +617,7 @@ message
 <span style="color:red">Your Text</span>
 
 $\color{red}{Text}$
+$\color{red}{Text}$
 
 $$\color{green}{\text{Your Green Message}}$$
 
@@ -655,3 +656,7 @@ which also includes Walt Disney World, the other being Lake Buena Vista. Bay Lak
 </div>
 
 $\colorbox{yellow}{\color{black}Warning: This has a background}$ continues on the same line
+
+> \[!NOTE]
+> Dependabot raises pull requests for security updates against the **default branch only**. If you use `target-branch`, then as a result,
+> all configuration settings for that package manager will then only apply to version updates, and not security updates.
