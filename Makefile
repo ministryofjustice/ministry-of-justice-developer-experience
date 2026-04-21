@@ -7,8 +7,8 @@ ECR_REPOSITORY ?= ministry-of-justice-developer-portal
 IMAGE_URI ?= $(IMAGE_REGISTRY)/$(ECR_REPOSITORY):$(IMAGE_TAG)
 KUBE_NAMESPACE_DEV ?= developer-portal-dev
 KUBE_NAMESPACE_PROD ?= developer-portal-prod
-DEV_URL ?= https://dev.developerportal.service.justice.gov.uk/healthz
-PROD_URL ?= https://developerportal.service.justice.gov.uk/healthz
+DEV_URL ?= https://dev.developer-portal.service.justice.gov.uk/healthz
+PROD_URL ?= https://developer-portal.service.justice.gov.uk/healthz
 
 .PHONY: help install ingest ingest-dry-run build validate docker-build docker-run k8s-apply-dev k8s-apply-prod smoke-dev smoke-prod
 

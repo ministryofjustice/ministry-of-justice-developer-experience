@@ -202,8 +202,8 @@ The deploy workflows expect separate Kubernetes credentials for dev and prod:
 
 | Environment | Required secrets |
 |---|---|
-| Dev | `DEV_KUBE_CLUSTER`, `DEV_KUBE_NAMESPACE`, `DEV_KUBE_CERT`, `DEV_KUBE_TOKEN` |
-| Prod | `PROD_KUBE_CLUSTER`, `PROD_KUBE_NAMESPACE`, `PROD_KUBE_CERT`, `PROD_KUBE_TOKEN` |
+| Dev | `ECR_ROLE_TO_ASSUME`, `DEV_KUBE_CLUSTER`, `DEV_KUBE_NAMESPACE`, `DEV_KUBE_CERT`, `DEV_KUBE_TOKEN` |
+| Prod | `PROD_ECR_ROLE_TO_ASSUME`, `PROD_KUBE_CLUSTER`, `PROD_KUBE_NAMESPACE`, `PROD_KUBE_CERT`, `PROD_KUBE_TOKEN` |
 
 These are provided by Cloud Platform module configuration (for this repository) once the relevant Cloud Platform PRs are merged.
 
@@ -223,8 +223,8 @@ Set these in GitHub Actions variables at repository level, or as environment var
 
 #### Target domains
 
-- Dev: `https://dev.developerportal.service.justice.gov.uk`
-- Prod: `https://developerportal.service.justice.gov.uk`
+- Dev: `https://dev.developer-portal.service.justice.gov.uk`
+- Prod: `https://developer-portal.service.justice.gov.uk`
 
 #### Cutover from GitHub Pages
 

@@ -25,15 +25,14 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Configure AWS credentials for ECR
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4
         with:
-          # Keep this secret environment-scoped so dev/prod credentials never overlap.
           role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
           aws-region: ${{ vars.ECR_REGION }}
 
       - name: Login to Amazon ECR
         id: ecr-login
-        uses: aws-actions/amazon-ecr-login@v2
+        uses: aws-actions/amazon-ecr-login@376925c9d111252e87ae59691e5a442dd100ef6a # v2
 
       - name: Build and push image
         id: build-push
@@ -46,7 +45,7 @@ jobs:
           echo "image_uri=${IMAGE_URI}" >> "$GITHUB_OUTPUT"
 
       - name: Setup kubectl
-        uses: azure/setup-kubectl@v4
+        uses: azure/setup-kubectl@776406bce94f63e41d621b960d78ee25c8b76ede # v4
 
       - name: Configure Kubernetes access
         shell: bash
@@ -63,7 +62,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          sed "s|IMAGE_PLACEHOLDER|${{ steps.build-push.outputs.image_uri }}|g" k8s/dev/deployment.yaml | kubectl apply -f -
+          sed \
+            -e "s|IMAGE_PLACEHOLDER|${{ steps.build-push.outputs.image_uri }}|g" \
+            -e "s|^\([[:space:]]*namespace:\)[[:space:]]*.*$|\1 ${{ secrets.DEV_KUBE_NAMESPACE }}|" \
+            k8s/dev/deployment.yaml | kubectl apply -f -
           kubectl rollout status deployment/developer-portal --namespace "${{ secrets.DEV_KUBE_NAMESPACE }}" --timeout=180s
 
       - name: Smoke test

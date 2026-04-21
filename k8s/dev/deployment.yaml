@@ -58,7 +58,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: dev.developerportal.service.justice.gov.uk
+    - host: dev.developer-portal.service.justice.gov.uk
       http:
         paths:
           - path: /
@@ -70,5 +70,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - dev.developerportal.service.justice.gov.uk
-      secretName: developerportal-dev-cert
+        - dev.developer-portal.service.justice.gov.uk
+      secretName: developer-portal-dev-cert
