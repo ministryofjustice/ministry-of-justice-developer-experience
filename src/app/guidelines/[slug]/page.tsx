@@ -1,14 +1,14 @@
 import { notFound } from 'next/navigation';
-import { Breadcrumbs } from '@/src/components/Breadcrumbs';
-import { FeedbackWidget } from '@/src/components/FeedbackWidget';
-import { ChatBot } from '@/src/components/ChatBot';
-import { formatLongDate } from '@/src/lib/date';
-import { getReviewStatus } from '@/src/lib/review';
-import { MetaBar } from '@/src/components/templateRender/MetaBar';
-import { PageIntro } from '@/src/components/templateRender/PageIntro';
-import { ReviewBadge, type ReviewStatus } from '@/src/components/templateRender/ReviewBadge';
-import { TagRow } from '@/src/components/templateRender/TagRow';
-import guidelines from '@/content/guidelines/guidelines.json';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { FeedbackWidget } from '@/components/FeedbackWidget';
+import { ChatBot } from '@/components/ChatBot';
+import { formatLongDate } from '@/lib/date';
+import { getReviewStatus } from '@/lib/review';
+import { MetaBar } from '@/components/templateRender/MetaBar';
+import { PageIntro } from '@/components/templateRender/PageIntro';
+import { ReviewBadge, type ReviewStatus } from '@/components/templateRender/ReviewBadge';
+import { TagRow } from '@/components/templateRender/TagRow';
+import guidelines from '../../../../content/guidelines/guidelines.json';
 
 // Sample content for each guideline — in production these would be MDX files
 const guidelineContent: Record<string, string> = {

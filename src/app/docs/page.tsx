@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { getDocSources } from '@/src/lib/docs';
-import { Breadcrumbs } from '@/src/components/Breadcrumbs';
-import { ChatBot } from '@/src/components/ChatBot';
+import { getDocSources } from '@/lib/docs';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { ChatBot } from '@/components/ChatBot';
 
 export default function DocsIndex() {
   const sources = getDocSources();

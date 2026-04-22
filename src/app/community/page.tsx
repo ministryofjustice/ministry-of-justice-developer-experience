@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import { Breadcrumbs } from '@/src/components/Breadcrumbs';
-import { ChatBot } from '@/src/components/ChatBot';
-import { getCommunityCategoryLabel } from '@/src/lib/categoryLabels';
-import { formatEventDateTime } from '@/src/lib/date';
-import { Callout } from '@/src/components/templateRender/Callout';
-import { PageIntro } from '@/src/components/templateRender/PageIntro';
-import { Section } from '@/src/components/templateRender/Section';
-import community from '@/content/community/community.json';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { ChatBot } from '@/components/ChatBot';
+import { getCommunityCategoryLabel } from '@/lib/categoryLabels';
+import { formatEventDateTime } from '@/lib/date';
+import { Callout } from '@/components/templateRender/Callout';
+import { PageIntro } from '@/components/templateRender/PageIntro';
+import { Section } from '@/components/templateRender/Section';
+import community from '../../../content/community/community.json';
 
 export default function CommunityPage() {
   return (

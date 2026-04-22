@@ -1,17 +1,17 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { Breadcrumbs } from '@/src/components/Breadcrumbs';
-import { FeedbackWidget } from '@/src/components/FeedbackWidget';
-import { ChatBot } from '@/src/components/ChatBot';
-import { getProductCategoryLabel } from '@/src/lib/categoryLabels';
-import { ActionLinks, type ActionLink } from '@/src/components/templateRender/ActionLinks';
-import { MetaBar } from '@/src/components/templateRender/MetaBar';
-import { PageIntro } from '@/src/components/templateRender/PageIntro';
-import { StatusTag, type StatusTagValue } from '@/src/components/templateRender/StatusTag';
-import { TagRow } from '@/src/components/templateRender/TagRow';
-import { TagList } from '@/src/components/templateRender/TagList';
-import products from '@/content/products/products.json';
-import sources from '@/sources.json';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { FeedbackWidget } from '@/components/FeedbackWidget';
+import { ChatBot } from '@/components/ChatBot';
+import { getProductCategoryLabel } from '@/lib/categoryLabels';
+import { ActionLinks, type ActionLink } from '@/components/templateRender/ActionLinks';
+import { MetaBar } from '@/components/templateRender/MetaBar';
+import { PageIntro } from '@/components/templateRender/PageIntro';
+import { StatusTag, type StatusTagValue } from '@/components/templateRender/StatusTag';
+import { TagRow } from '@/components/templateRender/TagRow';
+import { TagList } from '@/components/templateRender/TagList';
+import products from '../../../../content/products/products.json';
+import sources from '../../../../sources.json';
 
 interface Product {
   slug: string;

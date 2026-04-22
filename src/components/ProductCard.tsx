@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getProductCategoryLabel } from '@/src/lib/categoryLabels';
+import { getProductCategoryLabel } from '@/lib/categoryLabels';
 
 interface ProductCardProps {
   slug: string;

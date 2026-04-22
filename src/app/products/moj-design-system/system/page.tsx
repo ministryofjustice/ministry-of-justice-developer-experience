@@ -1,6 +1,6 @@
-import { Breadcrumbs } from '@/src/components/Breadcrumbs';
-import { ChatBot } from '@/src/components/ChatBot';
-import { MojDesignSystemShowcase } from '@/src/components/MojDesignSystemShowcase';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { ChatBot } from '@/components/ChatBot';
+import { MojDesignSystemShowcase } from '@/components/MojDesignSystemShowcase';
 
 export const metadata = {
   title: 'Ministry of Justice Design System',

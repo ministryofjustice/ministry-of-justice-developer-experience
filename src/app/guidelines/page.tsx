@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { Breadcrumbs } from '@/src/components/Breadcrumbs';
-import { ChatBot } from '@/src/components/ChatBot';
-import { PageIntro } from '@/src/components/templateRender/PageIntro';
-import guidelines from '@/content/guidelines/guidelines.json';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { ChatBot } from '@/components/ChatBot';
+import { PageIntro } from '@/components/templateRender/PageIntro';
+import guidelines from '../../../content/guidelines/guidelines.json';
 
 interface Phase {
   key: string;

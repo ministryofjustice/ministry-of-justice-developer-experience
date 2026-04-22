@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { StatusTag, type StatusTagValue } from '@/src/components/templateRender/StatusTag';
+import { StatusTag, type StatusTagValue } from '@/components/templateRender/StatusTag';
 
 export interface TagRowProps {
   kicker?: string;

@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { ChatBot } from '@/src/components/ChatBot';
-import SearchWidget from '@/src/components/SearchWidget';
+import { ChatBot } from '@/components/ChatBot';
+import SearchWidget from '@/components/SearchWidget';
 
 const features = [
   {

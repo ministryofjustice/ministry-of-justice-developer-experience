@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getDocPage, getDocSources, getAllDocSlugs } from '@/src/lib/docs';
-import type { NavItem } from '@/src/lib/docs';
-import { markdownToHtml } from '@/src/lib/markdown';
-import { formatLongDate } from '@/src/lib/date';
-import { getReviewStatus } from '@/src/lib/review';
-import { Breadcrumbs } from '@/src/components/Breadcrumbs';
-import { FeedbackWidget } from '@/src/components/FeedbackWidget';
-import { ChatBot } from '@/src/components/ChatBot';
-import { MetaBar } from '@/src/components/templateRender/MetaBar';
-import { ReviewBadge, type ReviewStatus } from '@/src/components/templateRender/ReviewBadge';
+import { getDocPage, getDocSources, getAllDocSlugs } from '@/lib/docs';
+import type { NavItem } from '@/lib/docs';
+import { markdownToHtml } from '@/lib/markdown';
+import { formatLongDate } from '@/lib/date';
+import { getReviewStatus } from '@/lib/review';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { FeedbackWidget } from '@/components/FeedbackWidget';
+import { ChatBot } from '@/components/ChatBot';
+import { MetaBar } from '@/components/templateRender/MetaBar';
+import { ReviewBadge, type ReviewStatus } from '@/components/templateRender/ReviewBadge';
 
 export function generateStaticParams() {
   const slugs = getAllDocSlugs();

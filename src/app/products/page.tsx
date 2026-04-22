@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { ProductCard } from '@/src/components/ProductCard';
-import { Breadcrumbs } from '@/src/components/Breadcrumbs';
-import { ChatBot } from '@/src/components/ChatBot';
-import products from '@/content/products/products.json';
+import { ProductCard } from '@/components/ProductCard';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { ChatBot } from '@/components/ChatBot';
+import products from '../../../content/products/products.json';
 
 const categories = [
   { key: 'all', label: 'All' },

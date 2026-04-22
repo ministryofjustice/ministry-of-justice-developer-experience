@@ -1,19 +1,18 @@
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 
-import community from '@/content/community/community.json';
-import { formatEventDateTime } from '@/src/lib/date';
-import { StatusTag, StatusTagValue } from '@/src/components/templateRender/StatusTag';
-import { Breadcrumbs } from '@/src/components/Breadcrumbs';
-import { TagRow } from '@/src/components/templateRender/TagRow';
-import { getCommunityCategoryLabel } from '@/src/lib/categoryLabels';
-import { PageIntro } from '@/src/components/templateRender/PageIntro';
-import { TagList } from '@/src/components/templateRender/TagList';
-import { ActionLinks } from '@/src/components/templateRender/ActionLinks';
-import { MetaBar } from '@/src/components/templateRender/MetaBar';
-import { Section } from '@/src/components/templateRender/Section';
-import { FeedbackWidget } from '@/src/components/FeedbackWidget';
-import { ChatBot } from '@/src/components/ChatBot';
+import { formatEventDateTime } from '@/lib/date';
+import { StatusTag, StatusTagValue } from '@/components/templateRender/StatusTag';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { TagRow } from '@/components/templateRender/TagRow';
+import { getCommunityCategoryLabel } from '@/lib/categoryLabels';
+import { PageIntro } from '@/components/templateRender/PageIntro';
+import { TagList } from '@/components/templateRender/TagList';
+import { ActionLinks } from '@/components/templateRender/ActionLinks';
+import { MetaBar } from '@/components/templateRender/MetaBar';
+import { Section } from '@/components/templateRender/Section';
+import { FeedbackWidget } from '@/components/FeedbackWidget';
+import { ChatBot } from '@/components/ChatBot';
+import community from '../../../../content/community/community.json';
 
 type CommunityParams = { slug: string };
 

@@ -1,4 +1,4 @@
-import type { ReviewStatus } from '@/src/components/templateRender/ReviewBadge';
+import type { ReviewStatus } from '@/components/templateRender/ReviewBadge';
 
 export function getReviewStatus(lastReviewedOn?: string, reviewIn?: string): ReviewStatus | null {
   if (!lastReviewedOn || !reviewIn) return null;

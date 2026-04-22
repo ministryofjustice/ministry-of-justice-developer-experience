@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
-import { PageIntro } from '@/src/components/templateRender/PageIntro';
-import { TagRow } from '@/src/components/templateRender/TagRow';
-import type { StatusTagValue } from '@/src/components/templateRender/StatusTag';
+import { PageIntro } from '@/components/templateRender/PageIntro';
+import { TagRow } from '@/components/templateRender/TagRow';
+import type { StatusTagValue } from '@/components/templateRender/StatusTag';
 
 export type HeaderStatus = StatusTagValue;
 
