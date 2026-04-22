@@ -4,8 +4,10 @@
   "description": "Ministry of Justice Developer Experience Portal - Developer portal baseline security and compliance",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build && npx pagefind --site out",
+    "sync:design-system-assets": "node scripts/sync-design-system-assets.mjs",
+    "postinstall": "npm run sync:design-system-assets",
+    "dev": "npm run sync:design-system-assets && next dev",
+    "build": "npm run sync:design-system-assets && next build && npx pagefind --site out",
     "start": "next start",
     "lint": "npm run validate:ts",
     "ingest": "node scripts/ingest.mjs",
@@ -29,6 +31,7 @@
   },
   "homepage": "https://github.com/ministryofjustice/ministry-of-justice-developer-portal#readme",
   "dependencies": {
+    "@ministryofjustice/frontend": "^9.0.0",
     "govuk-frontend": "^6.1.0",
     "gray-matter": "^4.0.3",
     "next": "^16.2.3",
@@ -44,8 +47,8 @@
     "@types/react": "^19.2.14",
     "cspell": "^10.0.0",
     "markdownlint-cli": "^0.48.0",
-    "prettier": "^3.8.1",
     "pagefind": "^1.5.0",
+    "prettier": "^3.8.1",
     "typescript": "^6.0.2"
   },
   "engines": {
