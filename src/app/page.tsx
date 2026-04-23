@@ -101,7 +101,7 @@ export default function Home() {
           <div>
             {whatsNew.map((item, index) => (
               <div key={index} className="app-whats-new__item">
-                <span className="app-whats-new__date">
+                <span className="app-whats-new__date" data-testid="date">
                   {new Date(item.date).toLocaleDateString('en-GB', {
                     day: 'numeric',
                     month: 'long',

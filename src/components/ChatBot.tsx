@@ -8,12 +8,16 @@ interface Message {
 }
 
 const mockResponses: Record<string, string> = {
-  'cloud platform': 'The Cloud Platform is our Kubernetes-based hosting platform on AWS. You can find the full user guide at /docs/cloud-platform. It\'s the recommended default for hosting new services — you\'ll need to containerise your application and deploy via GitHub Actions.',
-  'modernisation platform': 'The Modernisation Platform provides AWS accounts for applications that don\'t fit Cloud Platform — typically legacy or non-containerised workloads. Documentation is available at /docs/modernisation-platform.',
-  'analytical platform': 'The Analytical Platform is our data analysis environment. It provides tools for data scientists and analysts including RStudio, JupyterHub, and Airflow. See /docs/analytical-platform for details.',
-  'api': 'For API documentation, check the Documentation section. We follow the GOV.UK API design standards — RESTful design, sensible versioning, and clear error responses. See our API Design Standards guideline for more.',
-  'deploy': 'To deploy to Cloud Platform: 1) Containerise your app (Dockerfile), 2) Set up a namespace in cloud-platform-environments, 3) Create a GitHub Actions pipeline to build, push to ECR, and apply K8s manifests. Full guide at /docs/cloud-platform/deploying-an-app.',
-  'help': 'I can help you find information about:\n\n• **Cloud Platform** — Kubernetes hosting\n• **Modernisation Platform** — AWS account hosting\n• **Analytical Platform** — Data analysis tools\n• **API standards** — Design guidelines\n• **Deployment** — How to get your service live\n\nJust ask me a question!',
+  'cloud platform':
+    "The Cloud Platform is our Kubernetes-based hosting platform on AWS. You can find the full user guide at /docs/cloud-platform. It's the recommended default for hosting new services — you'll need to containerise your application and deploy via GitHub Actions.",
+  'modernisation platform':
+    "The Modernisation Platform provides AWS accounts for applications that don't fit Cloud Platform — typically legacy or non-containerised workloads. Documentation is available at /docs/modernisation-platform.",
+  'analytical platform':
+    'The Analytical Platform is our data analysis environment. It provides tools for data scientists and analysts including RStudio, JupyterHub, and Airflow. See /docs/analytical-platform for details.',
+  api: 'For API documentation, check the Documentation section. We follow the GOV.UK API design standards — RESTful design, sensible versioning, and clear error responses. See our API Design Standards guideline for more.',
+  deploy:
+    'To deploy to Cloud Platform: 1) Containerise your app (Dockerfile), 2) Set up a namespace in cloud-platform-environments, 3) Create a GitHub Actions pipeline to build, push to ECR, and apply K8s manifests. Full guide at /docs/cloud-platform/deploying-an-app.',
+  help: 'I can help you find information about:\n\n• **Cloud Platform** — Kubernetes hosting\n• **Modernisation Platform** — AWS account hosting\n• **Analytical Platform** — Data analysis tools\n• **API standards** — Design guidelines\n• **Deployment** — How to get your service live\n\nJust ask me a question!',
 };
 
 function findResponse(input: string): string {
@@ -23,7 +27,7 @@ function findResponse(input: string): string {
       return response;
     }
   }
-  return 'I\'m not sure about that yet — this is a demo with limited responses. Try asking about Cloud Platform, Modernisation Platform, Analytical Platform, APIs, or deployment. In the full version, I\'ll be powered by an LLM with access to all portal documentation.';
+  return "I'm not sure about that yet — this is a demo with limited responses. Try asking about Cloud Platform, Modernisation Platform, Analytical Platform, APIs, or deployment. In the full version, I'll be powered by an LLM with access to all portal documentation.";
 }
 
 export function ChatBot() {
@@ -31,7 +35,8 @@ export function ChatBot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'bot',
-      content: 'Hello! I\'m the Developer Portal assistant. I can help you find documentation, products, and guidelines. What are you looking for?',
+      content:
+        "Hello! I'm the Developer Portal assistant. I can help you find documentation, products, and guidelines. What are you looking for?",
     },
   ]);
   const [input, setInput] = useState('');

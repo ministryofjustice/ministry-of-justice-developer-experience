@@ -83,6 +83,50 @@ describe('rewriteDocAssetSources', () => {
   });
 });
 
+describe('rewriteDocHref deeper cases', () => {
+  it('handles absolute github pages links', () => {
+    const input = `<a href="https://ministryofjustice.github.io/repo/docs/page">`;
+
+    const result = rewriteDocAnchorLinks(input, ctx);
+
+    expect(result).toContain('/docs/');
+  });
+
+  it('leaves /assets paths alone except basePath', () => {
+    const input = `<a href="/assets/image.png">`;
+
+    const result = rewriteDocAnchorLinks(input, ctx);
+
+    expect(result).toContain('/assets/image.png');
+  });
+
+  it('does not rewrite non-markdown extensions', () => {
+    const input = `<a href="file.json">`;
+
+    const result = rewriteDocAnchorLinks(input, ctx);
+
+    expect(result).toContain('file.json');
+  });
+});
+
+describe('rewriteAssetPath edge cases', () => {
+  it('returns original when no extension', () => {
+    const input = `<img src="image" />`;
+
+    const result = rewriteDocAssetSources(input, ctx);
+
+    expect(result).toContain('image');
+  });
+
+  it('does not rewrite docs-prefixed assets', () => {
+    const input = `<img src="/docs/test/image.png" />`;
+
+    const result = rewriteDocAssetSources(input, ctx);
+
+    expect(result).toContain('/docs/test/image.png');
+  });
+});
+
 describe('rewrite links edge cases', () => {
   it('handles multiple attributes in one HTML string', () => {
     const input = `
