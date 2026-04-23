@@ -8,7 +8,7 @@ Use Cloud Platform if your application:
 - Can be containerised (Docker)
 - Is stateless and follows 12-factor app principles
 - Needs Kubernetes features (auto-scaling, zero-downtime deploys)
-- Doesn't require PSN connectivity
+- Does not require PSN connectivity
 
 ### Modernisation Platform
 
@@ -20,15 +20,14 @@ Use Modernisation Platform if your application:
 
 ### Decision tree
 
-1. **Can your app run in a container?** → Yes → Cloud Platform
-2. **Does it need PSN?** → Yes → Modernisation Platform
-3. **Is it a legacy app?** → Consider Modernisation Platform for initial hosting, with a plan to migrate to Cloud Platform
-
-> \[!NOTE]
-> Dependabot raises pull requests for security updates against the **default branch only**. If you use \`target-branch\`, then as a result,
-> all configuration settings for that package manager will then only apply to version updates, and not security updates.
+1. Can your app run in a container?  
+   If yes, use Cloud Platform.
+2. Does it need PSN?  
+   If yes, use Modernisation Platform.
+3. Is it a legacy app?  
+   Consider Modernisation Platform for initial hosting, with a plan to migrate to Cloud Platform.
 
 ### Getting started
 
-- [Cloud Platform User Guide](/docs/cloud-platform)
-- [Modernisation Platform User Guide](/docs/modernisation-platform)
+- /docs/cloud-platform
+- /docs/modernisation-platform
