@@ -10,7 +10,15 @@ const GUIDELINES_DIR = path.join(process.cwd(), 'content', 'guidelines');
  */
 export function getGuidelinePage(slug: string): { content: string } | null {
   console.log('Attempting to load guideline content for slug:', slug);
-  const filePath = path.join(GUIDELINES_DIR, `${slug}.mdx`);
+  let filePath = path.join(GUIDELINES_DIR, `${slug}.mdx`);
+  
+  if (fs.existsSync(filePath)) {
+    const raw = fs.readFileSync(filePath, 'utf-8');
+    const { content } = matter(raw);
+    console.log('Loaded guideline content from', content);
+    return { content };
+  }
+  filePath = path.join(GUIDELINES_DIR, `${slug}.md`);
   
   if (fs.existsSync(filePath)) {
     const raw = fs.readFileSync(filePath, 'utf-8');

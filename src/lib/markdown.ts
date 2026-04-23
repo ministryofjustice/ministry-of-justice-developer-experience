@@ -52,8 +52,8 @@ function processCallouts(htmlContent: string): string {
     NOTE: 'moj-alert--information',
     TIP: 'moj-alert--success',
     IMPORTANT: 'moj-alert--warning',
-    CAUTION: 'moj-alert--warning',
     WARNING: 'moj-alert--warning',
+    CAUTION: 'moj-alert--error',
   };
   // Handle multi-paragraph callouts: > [!TYPE]\n> content
   let result = htmlContent.replace(/<blockquote>\s*<p>\[!([A-Z]+)\]<\/p>\s*([\s\S]*?)<\/blockquote>/g, (match, type, content) => {

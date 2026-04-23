@@ -80,7 +80,19 @@ updates:
       - "dependencies"
       - "github-actions"
 ```
+---
 
+## Quickstart checklist for Adopting Dependabot
+
+- [ ] Add a basic `.github/dependabot.yml` to your repository
+- [ ] Have a quick perusal over the [official docs](https://docs.github.com/en/code-security/dependabot)
+- [ ] Configure entries for all relevant package ecosystems
+- [ ] Enable Dependabot security updates in repository settings
+- [ ] Review below guidance to avoid any common pitfalls
+- [ ] Set appropriate cooldown values (use the recommended defaults mentioned below)
+- [ ] Add labels and reviewers to ensure PRs are visible to the right people
+- [ ] Establish a team process for triaging and merging Dependabot PRs
+- [ ] Consider grouping strategies to reduce PR noise
 ---
 
 ## Security vs Version Updates
@@ -572,17 +584,7 @@ Without CODEOWNERS, Dependabot PRs have no required reviewers and can be merged 
 - **Version updates** should be reviewed at least **weekly**
 - Teams should assign a **rota or DRI (Directly Responsible Individual)** for Dependabot PR management to prevent a backlog
 
----
 
-## Checklist for Adopting Dependabot
-
-- [ ] Add `.github/dependabot.yml` to your repository
-- [ ] Configure entries for all relevant package ecosystems
-- [ ] Enable Dependabot security updates in repository settings
-- [ ] Set appropriate cooldown values (use the recommended defaults above)
-- [ ] Add labels and reviewers to ensure PRs are visible to the right people
-- [ ] Establish a team process for triaging and merging Dependabot PRs
-- [ ] Consider grouping strategies to reduce PR noise
 
 ---
 
@@ -592,29 +594,3 @@ Without CODEOWNERS, Dependabot PRs have no required reviewers and can be merged 
 - [Dependabot Configuration Options](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)
 - [Semantic Versioning (semver.org)](https://semver.org/)
 
-## Text style tests
-
-> \[!NOTE] this is a note
-
-message
-
-> \[!TIP] this is a tip
-
-message
-
-> [!IMPORTANT] this is important
-
-message
-
-> [!CAUTION] this is a caution
-
-message
-
-> [!WARNING] this is a warning
-
-message
-
-
-> \[!NOTE]
-> Dependabot raises pull requests for security updates against the **default branch only**. If you use `target-branch`, then as a result,
-> all configuration settings for that package manager will then only apply to version updates, and not security updates.
