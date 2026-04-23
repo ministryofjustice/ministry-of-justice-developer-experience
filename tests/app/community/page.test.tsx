@@ -121,7 +121,7 @@ describe('CommunityPage', () => {
   it('renders chatbot and breadcrumbs', () => {
     render(<CommunityPage />);
 
-    expect(screen.getByTestId('chatbot')).toBeInTheDocument();
+    expect(screen.getByTestId('chatbot-button')).toBeInTheDocument();
     expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument();
   });
 
