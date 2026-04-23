@@ -35,7 +35,8 @@ const DOC_ASSET_EXTENSIONS = new Set([
 
 export async function markdownToHtml(markdown: string, docsLinkContext?: DocsLinkContext): Promise<string> {
   const result = await remark().use(remarkGfm).use(html).process(markdown);
-  const htmlOutput = addHeadingIds(result.toString());
+  let htmlOutput = addHeadingIds(result.toString());
+  htmlOutput = processCallouts(htmlOutput);
 
   if (!docsLinkContext) {
     return htmlOutput;
@@ -44,6 +45,33 @@ export async function markdownToHtml(markdown: string, docsLinkContext?: DocsLin
   const withAnchorLinks = rewriteDocAnchorLinks(htmlOutput, docsLinkContext);
   const withAssetLinks = rewriteDocAssetSources(withAnchorLinks, docsLinkContext);
   return normalizeMalformedDocsPathsInHtml(withAssetLinks);
+}
+
+function processCallouts(htmlContent: string): string {
+  const alertClassLookup: Record<string, string> = {
+    NOTE: 'moj-alert--information',
+    TIP: 'moj-alert--success',
+    IMPORTANT: 'moj-alert--warning',
+    CAUTION: 'moj-alert--warning',
+    WARNING: 'moj-alert--warning',
+  };
+  // Handle multi-paragraph callouts: > [!TYPE]\n> content
+  let result = htmlContent.replace(/<blockquote>\s*<p>\[!([A-Z]+)\]<\/p>\s*([\s\S]*?)<\/blockquote>/g, (match, type, content) => {
+    console.log('Matched multi callout:', match, 'type:', type, 'content:', content);
+    const alertClass = alertClassLookup[type] || 'moj-alert--information';
+    // Wrap in proper alert structure
+    return `<div class="moj-alert ${alertClass}"><div class="moj-alert__content">${content}</div></div>`;
+  });
+  // Handle single-paragraph callouts: > [!TYPE] content
+  result = result.replace(/<blockquote>\s*<p>\[!([A-Z]+)\]\s*([\s\S]*?)<\/p>\s*<\/blockquote>/g, (match, type, content) => {
+    console.log('Matched single callout:', match, 'type:', type, 'content:', content);
+    const alertClass = alertClassLookup[type] || 'moj-alert--information';
+    return `<div class="moj-alert ${alertClass}"><div class="moj-alert__content"><p>${content}</p></div></div>`;
+  });
+  if (result !== htmlContent) {
+    console.log('Callouts processed');
+  }
+  return result;
 }
 
 function rewriteDocAnchorLinks(htmlContent: string, docsLinkContext: DocsLinkContext): string {

@@ -506,6 +506,18 @@ html {
     max-width: 100%;
     height: auto;
   }
+
+  .moj-alert {
+    margin: 20px 0;
+  }
+
+  .moj-alert__content {
+    grid-column: 1 / -1;
+  }
+
+  .moj-alert__content p:last-child {
+    margin-bottom: 0;
+  }
 }
 
 // Search
