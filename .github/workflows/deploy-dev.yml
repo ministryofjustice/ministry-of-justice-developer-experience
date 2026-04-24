@@ -62,7 +62,7 @@ jobs:
         run: |
           set -euo pipefail
           IMAGE_URI="${{ steps.ecr-login.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${IMAGE_TAG}"
-          docker build -t "${IMAGE_URI}" .
+          docker buildx build --platform linux/amd64 --load -t "${IMAGE_URI}" .
           docker push "${IMAGE_URI}"
           echo "image_uri=${IMAGE_URI}" >> "$GITHUB_OUTPUT"
 
