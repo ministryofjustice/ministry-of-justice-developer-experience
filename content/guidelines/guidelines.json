@@ -13,6 +13,15 @@
     "reviewIn": "6 months"
   },
   {
+    "slug": "dependabot-guidelines",
+    "title": "Dependabot guidelines",
+    "phase": "inception",
+    "description": "Guidelines for using Dependabot to manage dependencies and security updates.",
+    "owner": "Cloud Platform team",
+    "lastReviewedOn": "2026-02-01",
+    "reviewIn": "6 months"
+  },
+  {
     "slug": "service-assessments",
     "title": "Preparing for service assessments",
     "phase": "inception",

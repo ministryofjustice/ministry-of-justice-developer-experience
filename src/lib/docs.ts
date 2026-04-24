@@ -3,6 +3,34 @@ import path from 'path';
 import matter from 'gray-matter';
 import { DocPage, DocSource, NavItem } from '@/types/types';
 
+const GUIDELINES_DIR = path.join(process.cwd(), 'content', 'guidelines');
+
+/**
+ * Get a single guideline page by slug
+ * Todo: move a more suitable place or rename this file.
+ */
+export function getGuidelinePage(slug: string): { content: string } | null {
+  console.log('Attempting to load guideline content for slug:', slug);
+  let filePath = path.join(GUIDELINES_DIR, `${slug}.mdx`);
+  
+  if (fs.existsSync(filePath)) {
+    const raw = fs.readFileSync(filePath, 'utf-8');
+    const { content } = matter(raw);
+    console.log('Loaded guideline content from', content);
+    return { content };
+  }
+  filePath = path.join(GUIDELINES_DIR, `${slug}.md`);
+  
+  if (fs.existsSync(filePath)) {
+    const raw = fs.readFileSync(filePath, 'utf-8');
+    const { content } = matter(raw);
+    console.log('Loaded guideline content from', content);
+    return { content };
+  }
+
+  return null;
+}
+
 const DOCS_DIR = path.join(process.cwd(), 'content', 'docs');
 
 /**
