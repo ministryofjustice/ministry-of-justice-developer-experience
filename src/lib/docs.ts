@@ -115,10 +115,18 @@ export function getDocPage(slugPath: string[]): DocPage | null {
  * Get all doc page slugs for static generation
  */
 export function getAllDocSlugs(): string[][] {
-  if (!fs.existsSync(DOCS_DIR)) return [];
+  console.log('getAllDocSlugs: DOCS_DIR =', DOCS_DIR);
+  console.log('getAllDocSlugs: process.cwd() =', process.cwd());
+  console.log('getAllDocSlugs: fs.existsSync(DOCS_DIR) =', fs.existsSync(DOCS_DIR));
+  
+  if (!fs.existsSync(DOCS_DIR)) {
+    console.log('getAllDocSlugs: DOCS_DIR does not exist, returning empty array');
+    return [];
+  }
 
   const slugs: string[][] = [];
   walkDir(DOCS_DIR, [], slugs);
+  console.log('getAllDocSlugs: found', slugs.length, 'slugs');
   return slugs;
 }
 
