@@ -221,6 +221,12 @@ Set these in GitHub Actions variables at repository level, or as environment var
 - Dev deployment runs automatically on push to `main` and can also be run manually via `.github/workflows/deploy-dev.yml`.
 - Prod deployment is manual-only via `.github/workflows/deploy-prod.yml`.
 
+#### Smoke tests in CI
+
+Deploy workflows run `scripts/smoke-test.sh` against `/healthz` after rollout. The script supports an optional third argument (`resolve-ip`) and, when provided, performs the request with `curl --resolve`.
+
+This avoids false negatives caused by temporary DNS resolution issues on GitHub-hosted runners, while still validating the correct host and TLS path through Cloud Platform ingress.
+
 #### Runtime hardening
 
 Both Kubernetes deployments apply a baseline container hardening profile:

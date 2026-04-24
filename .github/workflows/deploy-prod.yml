@@ -94,6 +94,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Resolve the ingress load balancer host to an IP so smoke tests are
+          # resilient when runner DNS cannot resolve the app hostname yet.
           APP_HOST="developer-portal.service.justice.gov.uk"
           INGRESS_LB_HOST=$(kubectl get ingress developer-portal --namespace "${{ secrets.PROD_KUBE_NAMESPACE }}" -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
           RESOLVE_IP=$(getent ahostsv4 "${INGRESS_LB_HOST}" | awk 'NR==1{print $1}')
@@ -104,4 +106,5 @@ jobs:
       - name: Smoke test
         shell: bash
         run: |
+          # scripts/smoke-test.sh uses curl --resolve when resolve_ip is provided.
           bash scripts/smoke-test.sh prod "${{ steps.smoke-target.outputs.health_url }}" "${{ steps.smoke-target.outputs.resolve_ip }}"
