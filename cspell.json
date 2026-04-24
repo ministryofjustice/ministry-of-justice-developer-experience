@@ -34,7 +34,9 @@
     "scrying",
     "katex",
     "SLSA",
-    "healthz"
+    "healthz",
+    "uwsgi",
+    "scgi"
   ],
   "dictionaries": ["en-gb", "companies", "softwareTerms", "misc", "lorem-ipsum", "typescript", "node", "bash", "npm"],
   "languageSettings": [
