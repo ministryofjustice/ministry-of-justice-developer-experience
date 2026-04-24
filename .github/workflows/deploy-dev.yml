@@ -85,16 +85,22 @@ jobs:
           kubectl config current-context
           echo "Kubectl config view:"
           kubectl config view --minify
+          echo "Kubeconfig location: $KUBECONFIG"
+          
+          # Make kubeconfig location available to subsequent steps
+          echo "KUBECONFIG=$HOME/.kube/config" >> $GITHUB_ENV
 
       - name: Deploy manifests
         shell: bash
         run: |
           set -euo pipefail
+          echo "Using kubeconfig: $KUBECONFIG"
+          kubectl config current-context
           sed \
             -e "s|IMAGE_PLACEHOLDER|${{ steps.build-push.outputs.image_uri }}|g" \
             -e "s|^\([[:space:]]*namespace:\)[[:space:]]*.*$|\1 ${{ secrets.DEV_KUBE_NAMESPACE }}|" \
-            k8s/dev/deployment.yaml | kubectl --context=dev apply -f -
-          kubectl --context=dev rollout status deployment/developer-portal --namespace "${{ secrets.DEV_KUBE_NAMESPACE }}" --timeout=180s
+            k8s/dev/deployment.yaml | kubectl apply -f -
+          kubectl rollout status deployment/developer-portal --namespace "${{ secrets.DEV_KUBE_NAMESPACE }}" --timeout=180s
 
       - name: Smoke test
         shell: bash
