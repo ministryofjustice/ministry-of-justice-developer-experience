@@ -21,8 +21,8 @@ export async function generateStaticParams(): Promise<Params[]> {
   return slugs.map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: { params: Params }) {
-  const { slug } = params;
+export async function generateMetadata({ params }: { params: Promise<Params> }) {
+  const { slug } = await params;
   const page = getDocPage(slug);
   if (!page) return {};
   return { title: page.meta.title };
@@ -56,8 +56,8 @@ function SidebarNav({ items, currentSlug }: { items: NavItem[]; currentSlug: str
   );
 }
 
-export default async function DocPage({ params }: { params: Params }) {
-  const { slug } = params;
+export default async function DocPage({ params }: { params: Promise<Params> }) {
+  const { slug } = await params;
   const page = getDocPage(slug);
   if (!page) notFound();
 
