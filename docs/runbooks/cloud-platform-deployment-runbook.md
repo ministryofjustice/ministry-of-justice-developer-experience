@@ -1,5 +1,10 @@
 # Cloud Platform Deployment Runbook
 
+## Review Dates
+
+- Last reviewed: 2026-04-24
+
+
 ## Scope
 
 This runbook covers deployment of `ministryofjustice/ministry-of-justice-developer-portal` to Cloud Platform Kubernetes namespaces:
@@ -67,6 +72,45 @@ Expected values:
 - `PROD_KUBE_NAMESPACE=developer-portal-prod`
 - `PROD_KUBE_CLUSTER` should be the full API server URL
 - `PROD_KUBE_CERT` should be the PEM CA cert (plain text)
+
+## How To Add A New Environment/Namespace
+
+Use this process for a new environment such as `staging`.
+
+1. Provision namespace access in Cloud Platform for the new namespace (for example `developer-portal-staging`) and obtain:
+- cluster API URL
+- cluster CA cert
+- service account token with namespace-scoped deploy permissions
+
+2. Create a GitHub Environment (for example `staging`) at:
+https://github.com/ministryofjustice/ministry-of-justice-developer-portal/settings/environments
+
+3. Add environment secrets following existing naming conventions:
+- `<ENV>_ECR_ROLE_TO_ASSUME`
+- `<ENV>_KUBE_CLUSTER`
+- `<ENV>_KUBE_NAMESPACE`
+- `<ENV>_KUBE_CERT`
+- `<ENV>_KUBE_TOKEN`
+
+4. Add namespace manifests under `k8s/<env>/deployment.yaml` by copying an existing manifest and updating:
+- namespace
+- ingress host
+- ingress class
+- external-dns annotations (`aws-weight`, `set-identifier`)
+- TLS secret name
+
+5. Add a deploy workflow (for example `.github/workflows/deploy-<env>.yml`) by copying `deploy-dev.yml` or `deploy-prod.yml` and updating:
+- `environment: <env>`
+- secret names to `<ENV>_*`
+- manifest path `k8s/<env>/deployment.yaml`
+- smoke test hostname
+
+6. Run workflow_dispatch for the new workflow and validate:
+- rollout success in new namespace
+- ingress created and synced
+- smoke test returns `200` with body `ok`
+
+7. Add operational commands for the new namespace in this runbook once verified.
 
 ## Deployment Flow
 
