@@ -74,10 +74,22 @@ jobs:
         run: |
           set -euo pipefail
           # Use Cloud Platform-provisioned DEV_* GitHub secrets.
-          echo "${KUBE_CERT}" > ca.crt
           
-          # Debug: show what we're configuring
-          echo "Configuring kubectl with cluster: ${KUBE_CLUSTER}"
+          # Validate required secrets
+          if [[ -z "${KUBE_CLUSTER}" ]]; then
+            echo "ERROR: DEV_KUBE_CLUSTER secret is not set or is empty"
+            exit 1
+          fi
+          if [[ -z "${KUBE_TOKEN}" ]]; then
+            echo "ERROR: DEV_KUBE_TOKEN secret is not set or is empty"
+            exit 1
+          fi
+          if [[ -z "${KUBE_NAMESPACE}" ]]; then
+            echo "ERROR: DEV_KUBE_NAMESPACE secret is not set or is empty"
+            exit 1
+          fi
+          
+          echo "${KUBE_CERT}" > ca.crt
           
           # Ensure URL has https:// prefix
           if [[ "${KUBE_CLUSTER}" =~ ^https:// ]]; then
@@ -90,10 +102,6 @@ jobs:
           kubectl config set-credentials github-actions --token="${KUBE_TOKEN}"
           kubectl config set-context dev --cluster=cp-cluster --user=github-actions --namespace="${KUBE_NAMESPACE}"
           kubectl config use-context dev
-          
-          # Verify configuration
-          kubectl config view
-          kubectl cluster-info
         env:
           KUBE_CERT: ${{ secrets.DEV_KUBE_CERT }}
           KUBE_TOKEN: ${{ secrets.DEV_KUBE_TOKEN }}

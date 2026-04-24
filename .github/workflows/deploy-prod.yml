@@ -70,6 +70,21 @@ jobs:
         run: |
           set -euo pipefail
           # Use Cloud Platform-provisioned PROD_* GitHub secrets.
+          
+          # Validate required secrets
+          if [[ -z "${KUBE_CLUSTER}" ]]; then
+            echo "ERROR: PROD_KUBE_CLUSTER secret is not set or is empty"
+            exit 1
+          fi
+          if [[ -z "${KUBE_TOKEN}" ]]; then
+            echo "ERROR: PROD_KUBE_TOKEN secret is not set or is empty"
+            exit 1
+          fi
+          if [[ -z "${KUBE_NAMESPACE}" ]]; then
+            echo "ERROR: PROD_KUBE_NAMESPACE secret is not set or is empty"
+            exit 1
+          fi
+          
           echo "${KUBE_CERT}" > ca.crt
           
           # Ensure URL has https:// prefix
