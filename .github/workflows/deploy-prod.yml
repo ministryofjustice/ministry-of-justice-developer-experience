@@ -70,39 +70,11 @@ jobs:
         run: |
           set -euo pipefail
           # Use Cloud Platform-provisioned PROD_* GitHub secrets.
-          
-          # Validate required secrets
-          if [[ -z "${KUBE_CLUSTER}" ]]; then
-            echo "ERROR: PROD_KUBE_CLUSTER secret is not set or is empty"
-            exit 1
-          fi
-          if [[ -z "${KUBE_TOKEN}" ]]; then
-            echo "ERROR: PROD_KUBE_TOKEN secret is not set or is empty"
-            exit 1
-          fi
-          if [[ -z "${KUBE_NAMESPACE}" ]]; then
-            echo "ERROR: PROD_KUBE_NAMESPACE secret is not set or is empty"
-            exit 1
-          fi
-          
-          echo "${KUBE_CERT}" > ca.crt
-          
-          # Ensure URL has https:// prefix
-          if [[ "${KUBE_CLUSTER}" =~ ^https:// ]]; then
-            SERVER_URL="${KUBE_CLUSTER}"
-          else
-            SERVER_URL="https://${KUBE_CLUSTER}"
-          fi
-          
-          kubectl config set-cluster cp-cluster --server="${SERVER_URL}" --certificate-authority=ca.crt
-          kubectl config set-credentials github-actions --token="${KUBE_TOKEN}"
-          kubectl config set-context prod --cluster=cp-cluster --user=github-actions --namespace="${KUBE_NAMESPACE}"
+          echo "${{ secrets.PROD_KUBE_CERT }}" > ca.crt
+          kubectl config set-cluster cp-cluster --server="${{ secrets.PROD_KUBE_CLUSTER }}" --certificate-authority=ca.crt
+          kubectl config set-credentials github-actions --token="${{ secrets.PROD_KUBE_TOKEN }}"
+          kubectl config set-context prod --cluster=cp-cluster --user=github-actions --namespace="${{ secrets.PROD_KUBE_NAMESPACE }}"
           kubectl config use-context prod
-        env:
-          KUBE_CERT: ${{ secrets.PROD_KUBE_CERT }}
-          KUBE_TOKEN: ${{ secrets.PROD_KUBE_TOKEN }}
-          KUBE_CLUSTER: ${{ secrets.PROD_KUBE_CLUSTER }}
-          KUBE_NAMESPACE: ${{ secrets.PROD_KUBE_NAMESPACE }}
 
       - name: Deploy manifests
         shell: bash
