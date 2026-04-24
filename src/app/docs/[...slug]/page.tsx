@@ -14,9 +14,10 @@ import { NavItem } from '@/types/types';
 
 type Params = { slug: string[] };
 
+export const dynamic = 'force-static';
 export const dynamicParams = false;
 
-export async function generateStaticParams(): Promise<Params[]> {
+export function generateStaticParams(): Params[] {
   const slugs = getAllDocSlugs();
   return slugs.map((slug) => ({ slug }));
 }
