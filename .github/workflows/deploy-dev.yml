@@ -110,7 +110,19 @@ jobs:
             k8s/dev/deployment.yaml | kubectl apply -f -
           kubectl rollout status deployment/developer-portal --namespace "${{ secrets.DEV_KUBE_NAMESPACE }}" --timeout=180s
 
+      - name: Resolve smoke test target
+        id: smoke-target
+        shell: bash
+        run: |
+          set -euo pipefail
+          APP_HOST="dev.developer-portal.service.justice.gov.uk"
+          INGRESS_LB_HOST=$(kubectl get ingress developer-portal --namespace "${{ secrets.DEV_KUBE_NAMESPACE }}" -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+          RESOLVE_IP=$(getent ahostsv4 "${INGRESS_LB_HOST}" | awk 'NR==1{print $1}')
+
+          echo "health_url=https://${APP_HOST}/healthz" >> "$GITHUB_OUTPUT"
+          echo "resolve_ip=${RESOLVE_IP}" >> "$GITHUB_OUTPUT"
+
       - name: Smoke test
         shell: bash
         run: |
-          bash scripts/smoke-test.sh dev https://dev.developer-portal.service.justice.gov.uk/healthz
+          bash scripts/smoke-test.sh dev "${{ steps.smoke-target.outputs.health_url }}" "${{ steps.smoke-target.outputs.resolve_ip }}"
