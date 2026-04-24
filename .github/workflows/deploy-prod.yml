@@ -70,11 +70,16 @@ jobs:
         run: |
           set -euo pipefail
           # Use Cloud Platform-provisioned PROD_* GitHub secrets.
-          printf '%s' "${{ secrets.PROD_KUBE_CERT }}" | base64 -d > ca.crt
-          kubectl config set-cluster cp-cluster --server="${{ secrets.PROD_KUBE_CLUSTER }}" --certificate-authority=ca.crt
-          kubectl config set-credentials github-actions --token="${{ secrets.PROD_KUBE_TOKEN }}"
-          kubectl config set-context prod --cluster=cp-cluster --user=github-actions --namespace="${{ secrets.PROD_KUBE_NAMESPACE }}"
+          echo "${KUBE_CERT}" > ca.crt
+          kubectl config set-cluster cp-cluster --server="${KUBE_CLUSTER}" --certificate-authority=ca.crt
+          kubectl config set-credentials github-actions --token="${KUBE_TOKEN}"
+          kubectl config set-context prod --cluster=cp-cluster --user=github-actions --namespace="${KUBE_NAMESPACE}"
           kubectl config use-context prod
+        env:
+          KUBE_CERT: ${{ secrets.PROD_KUBE_CERT }}
+          KUBE_TOKEN: ${{ secrets.PROD_KUBE_TOKEN }}
+          KUBE_CLUSTER: ${{ secrets.PROD_KUBE_CLUSTER }}
+          KUBE_NAMESPACE: ${{ secrets.PROD_KUBE_NAMESPACE }}
 
       - name: Deploy manifests
         shell: bash
