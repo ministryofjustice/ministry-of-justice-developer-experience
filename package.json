@@ -34,6 +34,7 @@
   },
   "homepage": "https://github.com/ministryofjustice/ministry-of-justice-developer-portal#readme",
   "dependencies": {
+    "@testing-library/user-event": "^14.6.1",
     "govuk-frontend": "^6.1.0",
     "gray-matter": "^4.0.3",
     "next": "^16.2.3",
