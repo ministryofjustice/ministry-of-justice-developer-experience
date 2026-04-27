@@ -4,8 +4,12 @@ run-name: Ingest Content
 on:
   workflow_dispatch:
     inputs:
+      source_id:
+        description: "Source ID to ingest (must match sources.json id; leave empty for all)"
+        required: false
+        type: string
       source:
-        description: "Source ID to ingest (leave empty for all)"
+        description: "Deprecated alias for source_id"
         required: false
         type: string
 
@@ -50,10 +54,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ -n "${{ github.event.inputs.source || '' }}" ]; then
-            node scripts/ingest.mjs "${{ github.event.inputs.source }}"
-          elif [ -n "${{ github.event.client_payload.source_id || '' }}" ]; then
-            node scripts/ingest.mjs "${{ github.event.client_payload.source_id }}"
+          SOURCE_ID="${{ github.event.inputs.source_id || github.event.inputs.source || github.event.client_payload.source_id || '' }}"
+          if [ -n "$SOURCE_ID" ]; then
+            node scripts/ingest.mjs "$SOURCE_ID"
           else
             node scripts/ingest.mjs
           fi

@@ -129,7 +129,7 @@ async function ingestSource(source) {
 
     for (const f of files) {
       console.log(`  [dry-run] ${f.relative}`);
-      const converted = convertFile(f, source);
+      const converted = convertFile(f, config);
       const referencedAssets = collectReferencedAssets(
         converted.content,
         f.absolute,
@@ -161,7 +161,7 @@ async function ingestSource(source) {
   const assetPaths = new Set();
 
   for (const file of files) {
-    const converted = convertFile(file, source);
+    const converted = convertFile(file, config);
     const outputPath = path.join(outputDir, converted.outputRelative);
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
     fs.writeFileSync(outputPath, converted.content, 'utf-8');

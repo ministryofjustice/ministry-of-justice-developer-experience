@@ -31,7 +31,7 @@ Replace placeholders below for your target repository:
 - `<PUBLIC_ASSET_DIR>`: public assets folder (for example `public/docs`)
 - `<NODE_VERSION_VAR>`: Actions variable used by workflow (for example `NODE_VERSION`)
 - `<DISPATCH_EVENT_TYPE>`: repository dispatch type (for example `docs-update`)
-- `<SOURCE_INPUT_NAME>`: manual workflow input name (for example `source`)
+- `<SOURCE_INPUT_NAME>`: manual workflow input name (for example `source_id`)
 
 Absolute links pattern:
 
@@ -69,6 +69,12 @@ Define each source under a list (for example `sources[]`) with fields like:
 - `format`: converter type (`tech-docs-template`, `markdown`, etc.)
 - `enabled`: include/exclude source
 - `owner_slack` or equivalent owner metadata (optional)
+
+`sources.json` is the source of truth for `id`, `repo`, `branch`, `format`, and `enabled`.
+Only these overrides are supported from source repository `portal.yaml`:
+
+- `docs.path`
+- `owner_slack`
 
 ## How To Add A New Source
 
@@ -169,6 +175,8 @@ If workflow expects `client_payload.source_id`:
 }
 ```
 
+`client_payload.source_id` must exactly match the source `id` in `<SOURCES_CONFIG_PATH>`.
+
 ## Workflow Runtime Requirements
 
 - Node version variable configured (for example `vars.<NODE_VERSION_VAR>`)
@@ -192,6 +200,8 @@ Suggested commit message:
 After each ingestion run:
 
 1. Confirm Actions run success.
+1. If a source ID was provided, verify only that source was ingested.
+1. Validate invalid source ID behavior returns: `No matching sources found`.
 1. Verify changed files under `<CONTENT_OUTPUT_DIR>` and `<PUBLIC_ASSET_DIR>`.
 1. Verify metadata file exists for each ingested source.
 1. Run build locally:

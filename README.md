@@ -64,6 +64,17 @@ npm run ingest:build
 
 Source repos are configured in [`sources.json`](sources.json).
 
+#### `portal.yaml` override contract
+
+`sources.json` remains the source of truth for `id`, `repo`, `branch`, `format`, and `enabled`.
+
+The ingestion script supports only these overrides from source repository `portal.yaml`:
+
+- `docs.path`
+- `owner_slack`
+
+All other source-selection fields must be changed in `sources.json`.
+
 ### Build for production
 
 ```bash
@@ -212,6 +223,34 @@ Detailed documentation source setup and ingestion workflow are described in [doc
 
 Source repos can trigger re-ingestion automatically using `repository_dispatch`. See [`.github/workflows/notify-portal.yml.example`](.github/workflows/notify-portal.yml.example) for a workflow to add to source repos.
 
+Required notification contract:
+
+- `event-type` must be `docs-update`
+- `client_payload.source_id` must exactly match the `id` in [`sources.json`](sources.json)
+- source repo must provide `PORTAL_DISPATCH_TOKEN` secret with access to dispatch to this repository
+
+Example payload:
+
+```json
+{
+    "event_type": "docs-update",
+    "client_payload": {
+        "source_id": "cloud-platform"
+    }
+}
+```
+
+### Onboarding checklist for a new documentation source
+
+1. Add source metadata in [`sources.json`](sources.json): `id`, `repo`, `branch`, `docsPath`, `format`, `enabled`.
+2. Add source `portal.yaml` in upstream repository root (optional but recommended) for `docs.path`/`owner_slack` overrides.
+3. Add notification workflow in source repo based on [`.github/workflows/notify-portal.yml.example`](.github/workflows/notify-portal.yml.example).
+4. Set `PORTAL_DISPATCH_TOKEN` in source repo secrets.
+5. Validate with a targeted manual run via ingest workflow using `source_id`.
+6. Validate failure behavior with an invalid `source_id` (expect `No matching sources found`).
+7. Confirm no-op behavior when ingestion content is unchanged (workflow should not commit).
+8. Run portal checks: `npm run validate:all` and `npm run build`.
+
 ## GitHub Actions
 
 | Workflow | Trigger | Purpose |
@@ -256,6 +295,7 @@ Set these in GitHub Actions variables at repository level, or as environment var
 
 - [Cloud Platform deployment runbook](docs/runbooks/cloud-platform-deployment-runbook.md)
 - [Documentation ingestion runbook](docs/runbooks/ingestion-runbook.md)
+- [Source team docs ingestion onboarding](docs/runbooks/source-team-docs-ingestion-onboarding.md)
 
 #### Runtime hardening
 
