@@ -1,9 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
-import { chatbotMock, breadcrumbsMock } from '@tests/mocks/reusableUiMocks';
-
-chatbotMock();
-breadcrumbsMock();
+import '@tests/mocks/reusableUiMocks';
 
 vi.mock('next/navigation', () => ({
   notFound: vi.fn(() => { throw new Error('NEXT_NOT_FOUND'); }),
