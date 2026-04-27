@@ -7,6 +7,10 @@ We are doing this because we don't want to test te chatbot/search widget in this
 we simply are testing that the rendering is appropriate according to what we expect.
 The functionality of the components should be tested at the component level */
 
+vi.mock('@/components/MojFrontendInit', () => ({
+  MojFrontendInit: () => null,
+}));
+
 vi.mock('@/components/Header', () => ({
   Header: () => <div data-testid="header" />,
 }));

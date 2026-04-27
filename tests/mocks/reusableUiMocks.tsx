@@ -6,6 +6,12 @@ export function nextMock() {
   }));
 }
 
+export function mojFrontendInitMock() {
+  vi.mock('@/components/MojFrontendInit', () => ({
+    MojFrontendInit: () => null,
+  }));
+}
+
 export function searchWidgetMock() {
   vi.mock('@/components/SearchWidget', () => ({
     default: () => <div data-testid="search-widget" />,
