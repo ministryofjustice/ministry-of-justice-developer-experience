@@ -1,5 +1,9 @@
 # Dependabot Configuration and Usage Guidelines
 
+> [!NOTE]
+> Help us improve! This page is still in draft form. If something looks off or you have feedback, please get in touch via
+> our [Contact Us](/contact-us/) page.
+
 ## Overview
 
 This document provides guidance for configuring and safely managing Dependabot across Ministry of Justice repositories.
@@ -227,7 +231,7 @@ This is one of the highest-impact, lowest-visibility risks in Dependabot configu
 The practical effect is that Dependabot appears enabled, but large portions of the repository may be unmonitored.
 It's worth double-checking that all dependency locations are covered.
 
-**For repositories with dependencies in multiple locations, add an entry per directory:** (TODO: verify monorepo config)
+**For repositories with dependencies in multiple locations, add an entry per directory:**
 
 ```yaml
 updates:
@@ -284,7 +288,7 @@ The vast majority of Dependabot PRs should be reviewed and merged. Ignoring or c
 | **Confirmed breaking incompatibility**             | A version has been tested and breaks the application in a documented way; a fix is actively in progress.                                         | Ignore the specific breaking version range only. Remove the rule once the fix is in place. |
 | **Internal fork or vendored package**              | You maintain a patched fork of a dependency; upstream updates would silently overwrite your security fixes.                                      | Ignore the package until the fork is reconciled or upstreamed.                             |
 | **Active migration in progress**                   | The package is being replaced, raising PRs for the old package adds noise with no security benefit.                                              | Ignore the deprecated package for the duration of the migration only.                      |
-| **Rapid release churn with no security relevance** | A package releases multiple patch versions within days (e.g. documentation or CI fixes). Use cooldown settings first; `ignore` is a last resort. | Ignore a narrow version range briefly while churn settles. Remove within days.             |
+| **Rapid release churn with no security relevance** | A package releases multiple patch versions within days (e.g. documentation or CI fixes). Use cooldown settings first, `ignore` is a last resort. | Ignore a narrow version range briefly while churn settles. Remove within days.             |
 
 **Updates that are best not ignored:**
 
