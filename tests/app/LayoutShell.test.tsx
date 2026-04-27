@@ -1,23 +1,6 @@
 import { render, screen } from '@testing-library/react';
+import '@tests/mocks/AllMocks';
 import { LayoutShell } from '@/app/layoutShell';
-
-/*This test is set up to demonstrate how the mocks work in this methodology.
-The following mocks override the actual components and give us clear returns to assert against (test-ids).
-We are doing this because we don't want to test te chatbot/search widget in this space,
-we simply are testing that the rendering is appropriate according to what we expect.
-The functionality of the components should be tested at the component level */
-
-vi.mock('@/components/Header', () => ({
-  Header: () => <div data-testid="header" />,
-}));
-
-vi.mock('@/components/Footer', () => ({
-  Footer: () => <div data-testid="footer" />,
-}));
-
-vi.mock('@/components/PhaseBanner', () => ({
-  PhaseBanner: () => <div data-testid="phase-banner" />,
-}));
 
 describe('LayoutShell', () => {
   it('renders layout structure', () => {
