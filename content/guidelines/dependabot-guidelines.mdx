@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides standardised guidance for configuring and managing Dependabot across Ministry of Justice repositories.
+This document provides guidance for configuring and safely managing Dependabot across Ministry of Justice repositories.
 It aims to reduce PR noise, improve security posture and ensure teams manage dependency updates in a controlled and consistent way.
 
 ---
@@ -85,7 +85,7 @@ updates:
 
 ## Quickstart checklist for Adopting Dependabot
 
-- [ ] Add a basic `.github/dependabot.yml` to your repository
+- [ ] Ensure a basic `.github/dependabot.yml` exists your repository (inherited from your template or new file).
 - [ ] Have a quick perusal over the [official docs](https://docs.github.com/en/code-security/dependabot)
 - [ ] Configure entries for all relevant package ecosystems
 - [ ] Enable Dependabot security updates in repository settings
@@ -107,13 +107,12 @@ Dependabot handles two distinct types of updates:
 - **These bypass cooldown settings**, security PRs are always raised immediately
 - Should be triaged and merged promptly
 - Enable **Dependabot security updates** in your repository settings under _Settings → Code security and analysis_
-(TODO: Is this already enabled for MOJ org at org level?)
 
 ### Version Updates
 
 - Configured via `dependabot.yml` as described above
 - Subject to cooldown and scheduling rules
-- Focus on keeping dependencies current, not just secure
+- Focused on keeping dependencies current, not just secure
 - Lower urgency than security updates
 
 > [!TIP]
@@ -136,7 +135,7 @@ which compounds dependency drift and delays awareness of newly available patches
 
 | Interval  | Guidance                                                                                                                                                    |
 |-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `daily`   | **Required default.** Use for all repositories.                                                                                                             |
+| `daily`   | **Recommended default.** Use for all repositories.                                                                                                          |
 | `weekly`  | For purely development stage repositories only where daily checks add no practical value.                                                                   |
 | `monthly` | **Strongly discouraged.** A 30-day check window is incompatible with the 48-hour security response target. Do not use for any actively maintained ecosystem.|
 
@@ -189,8 +188,7 @@ at the default limit of 10 can have up to 30 open Dependabot PRs at once. Factor
 | Monorepo with multiple directories per ecosystem                                  | **15–20**: each directory generates its own PRs within the same ecosystem entry        |
 
 As a rule of thumb: if your total open PR count across all ecosystems regularly exceeds what your team can triage in a week,
-[grouping](#grouping-related-updates) and [cooldown settings](#cooldown-strategy) are more effective tools than reducing the limit.
-Lowering the limit silently queues updates rather than making them visible.
+then use other tools rather than reducing the limit. Lowering the limit silently queues updates rather than making them visible.
 
 > [!TIP]
 > Keeping ecosystem entries at **5 or above** is advisable. If the current volume feels unmanageable, improving triage cadence,
