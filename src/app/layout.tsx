@@ -13,19 +13,29 @@ export const metadata: Metadata = {
     'The Ministry of Justice Developer Portal — documentation, products, and guidelines for cross-government developers.',
 };
 
+export function LayoutShell({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <a href="#main-content" className="govuk-skip-link" data-module="govuk-skip-link">
+        Skip to main content
+      </a>
+      <Header />
+      <PhaseBanner />
+      <main className="govuk-main-wrapper" id="main-content" role="main">
+        {children}
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+// an example of how to ignore elements from coverage
+/* v8 ignore next */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="govuk-template">
       <body className="govuk-template__body js-enabled">
-        <a href="#main-content" className="govuk-skip-link" data-module="govuk-skip-link">
-          Skip to main content
-        </a>
-        <Header />
-        <PhaseBanner />
-        <main className="govuk-main-wrapper" id="main-content" role="main">
-          {children}
-        </main>
-        <Footer />
+        <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
   );
