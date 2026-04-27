@@ -9,3 +9,8 @@ import './HeaderMock';
 import './PhaseBannerMock';
 import './FooterMock';
 import './MojFrontendInitMock';
+import './FeedbackWidgetMock';
+import './MetaBarMock';
+import './PageIntroMock';
+import './ReviewBadgeMock';
+import './TagRowMock';

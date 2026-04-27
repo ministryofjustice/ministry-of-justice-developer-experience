@@ -6,39 +6,6 @@ vi.mock('next/navigation', () => ({
   notFound: vi.fn(() => { throw new Error('NEXT_NOT_FOUND'); }),
 }));
 
-vi.mock('@/components/FeedbackWidget', () => ({
-  FeedbackWidget: () => <div data-testid="feedback-widget" />,
-}));
-
-vi.mock('@/components/templateRender/MetaBar', () => ({
-  MetaBar: ({ items }: any) => (
-    <dl data-testid="meta-bar">
-      {items.map((item: any) => (
-        <div key={item.label}>
-          <dt>{item.label}</dt>
-          <dd>{item.value}</dd>
-        </div>
-      ))}
-    </dl>
-  ),
-}));
-
-vi.mock('@/components/templateRender/PageIntro', () => ({
-  PageIntro: ({ title }: any) => <h1>{title}</h1>,
-}));
-
-vi.mock('@/components/templateRender/ReviewBadge', () => ({
-  ReviewBadge: ({ status }: any) => <span data-testid="review-badge">{status}</span>,
-}));
-
-vi.mock('@/components/templateRender/TagRow', () => ({
-  TagRow: ({ categoryTag }: any) => <div data-testid="tag-row">{categoryTag}</div>,
-}));
-
-vi.mock('@/lib/date', () => ({
-  formatLongDate: (d: string) => `formatted-${d}`,
-}));
-
 vi.mock('@/lib/review', () => ({
   getReviewStatus: () => 'current',
 }));
