@@ -1,3 +1,4 @@
+import type React from 'react';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
