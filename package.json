@@ -59,7 +59,7 @@
     "@vitest/coverage-v8": "4.1.4",
     "@vitest/ui": "^4.1.4",
     "cspell": "^10.0.0",
-    "jsdom": "^29.1.0",
+    "jsdom": "^29.0.0",
     "markdownlint-cli": "^0.48.0",
     "pagefind": "^1.5.2",
     "prettier": "^3.8.3",
@@ -71,7 +71,6 @@
     "node": ">=18.0.0"
   },
   "overrides": {
-    "vite": "8.0.8",
-    "postcss": "8.5.10"
+    "vite": "8.0.8"
   }
 }
