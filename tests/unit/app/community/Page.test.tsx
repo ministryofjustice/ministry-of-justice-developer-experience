@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import '@tests/mocks/AllMocks';
+import '@tests/unit/mocks/AllMocks';
 import CommunityPage from '@/app/community/page';
 
 vi.mock('@/components/templateRender/PageIntro', () => ({
@@ -15,7 +15,7 @@ vi.mock('@/lib/categoryLabels', () => ({
   getCommunityCategoryLabel: (cat: string) => `label-${cat}`,
 }));
 
-vi.mock('../../../content/community/community.json', () => ({
+vi.mock('@/../content/community/community.json', () => ({
   default: {
     title: 'Community Title',
     summary: 'Community Summary',
