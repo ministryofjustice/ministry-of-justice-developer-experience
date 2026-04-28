@@ -2,6 +2,7 @@ import '../../styles/globals.scss';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { PhaseBanner } from '@/components/PhaseBanner';
+import { MojFrontendInit } from '@/components/MojFrontendInit';
 
 export function LayoutShell({ children }: { children: React.ReactNode }) {
   return (
@@ -15,6 +16,7 @@ export function LayoutShell({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       <Footer />
+      <MojFrontendInit />
     </>
   );
 }
