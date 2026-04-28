@@ -18,7 +18,7 @@ vi.mock('@/lib/docs', () => ({
   getGuidelinePage: vi.fn(),
 }));
 
-vi.mock('../../../../content/guidelines/guidelines.json', () => ({
+vi.mock('@/../content/guidelines/guidelines.json', () => ({
   default: {
     title: 'Guidelines',
     items: [
