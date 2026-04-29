@@ -77,6 +77,6 @@
   },
   "overrides": {
     "vite": "8.0.8",
-    "postcss": "^8.5.10"
+    "postcss": "8.5.10"
   }
 }
