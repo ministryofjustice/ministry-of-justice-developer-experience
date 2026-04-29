@@ -22,18 +22,12 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 3
-      semver-major-days: 8
-      semver-minor-days: 4
-      semver-patch-days: 3
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
     cooldown:
       default-days: 3
-      semver-major-days: 8
-      semver-minor-days: 4
-      semver-patch-days: 3
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
@@ -67,6 +61,3 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 3
-      semver-major-days: 8
-      semver-minor-days: 4
-      semver-patch-days: 3
