@@ -1,7 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import fs from 'fs';
 import path from 'path';
 import { getGuidelinePage, getDocSources, getDocPage, getAllDocSlugs, buildNavFromDir } from '@/lib/docs';
+
+
+// TODO: Refactor the following file to tidy up. Divide the file by testing concerns to simplify
 
 vi.mock('fs', () => ({
   default: {
