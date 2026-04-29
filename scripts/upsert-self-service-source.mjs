@@ -22,20 +22,14 @@ if (!eventPath) {
   fail('Missing event payload path argument.');
 }
 
-if (!fs.existsSync(eventPath)) {
-  fail(`Event payload file not found: ${eventPath}`);
-}
-
-const event = JSON.parse(fs.readFileSync(eventPath, 'utf-8'));
+const event = readJsonFile(eventPath, `Event payload file not found: ${eventPath}`);
 const payload = event.client_payload || {};
 
 // Normalize first so validation and persistence operate on one stable shape.
 const source = normalizeSource(payload);
 validateSource(source);
 
-const current = fs.existsSync(SOURCES_FILE)
-  ? JSON.parse(fs.readFileSync(SOURCES_FILE, 'utf-8'))
-  : { sources: [] };
+const current = readJsonFile(SOURCES_FILE, null, { sources: [] });
 
 const existing = Array.isArray(current.sources) ? current.sources : [];
 const existingEntry = existing.find((entry) => entry.id === source.id);
@@ -50,11 +44,7 @@ if (existingEntry?.onboardingMode === 'manual') {
 const filtered = existing.filter((entry) => entry.id !== source.id);
 const updated = [...filtered, source].sort((a, b) => a.id.localeCompare(b.id));
 
-fs.writeFileSync(
-  SOURCES_FILE,
-  `${JSON.stringify({ sources: updated }, null, 2)}\n`,
-  'utf-8',
-);
+writeJsonFileAtomic(SOURCES_FILE, { sources: updated });
 
 process.stdout.write(source.id);
 
@@ -108,4 +98,30 @@ function validateSource(source) {
 function fail(message) {
   console.error(`Self-service source registration failed: ${message}`);
   process.exit(1);
+}
+
+function readJsonFile(filePath, notFoundMessage, defaultValue) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  } catch (err) {
+    if (err && err.code === 'ENOENT') {
+      if (notFoundMessage) {
+        fail(notFoundMessage);
+      }
+      return defaultValue;
+    }
+    fail(`Failed to read JSON file '${filePath}': ${err.message}`);
+  }
+}
+
+function writeJsonFileAtomic(filePath, value) {
+  const dir = path.dirname(filePath);
+  const tempPath = path.join(
+    dir,
+    `.${path.basename(filePath)}.${process.pid}.${Date.now()}.tmp`,
+  );
+
+  // Write to a temp file in the same directory, then rename atomically.
+  fs.writeFileSync(tempPath, `${JSON.stringify(value, null, 2)}\n`, 'utf-8');
+  fs.renameSync(tempPath, filePath);
 }
