@@ -80,6 +80,17 @@ The ingestion script supports only these overrides from source repository `porta
 
 All other source-selection fields must be changed in `sources.json`.
 
+Implementation detail:
+
+- `scripts/ingest.mjs` is the CLI runner used by workflows and local commands.
+- `scripts/ingest-lib.mjs` exports the ingestion functions for unit testing.
+
+Targeted ingestion tests:
+
+```bash
+npm run test -- tests/unit/scripts/ingest-lib.test.ts
+```
+
 ### Build for production
 
 ```bash
@@ -173,6 +184,8 @@ You can use the `Makefile` for common tasks:
 ```bash
 make install
 make ingest
+make ingest-dry-run
+make ingest-test
 make build
 make docker-build IMAGE_URI=local/ministry-of-justice-developer-portal:dev
 make k8s-apply-dev IMAGE_URI=<your-ecr-image-uri>
@@ -284,10 +297,17 @@ with `onboardingMode: automated` and ingests only that source.
 
 | Workflow | Trigger | Purpose |
 |---|---|---|
-| [`ingest.yml`](.github/workflows/ingest.yml) | Schedule (6h), manual, webhook | Ingest external docs and commit updates |
+| [`ingest.yml`](.github/workflows/ingest.yml) | Schedule (every 6 hours), manual, webhook | Ingest external docs, commit updates, and notify Slack |
 | [`deploy-dev.yml`](.github/workflows/deploy-dev.yml) | Push to main, manual | Build image, push to ECR, deploy to dev namespace |
 | [`deploy-prod.yml`](.github/workflows/deploy-prod.yml) | Manual | Build image, push to ECR, deploy to prod namespace |
 | [`preview.yml`](.github/workflows/preview.yml) | Pull request | Dry-run ingest + build check |
+
+### Ingestion workflow notification secret
+
+`ingest.yml` posts a Slack message for every run outcome (success/failure/cancelled)
+when this repository secret is configured:
+
+- `SLACK_WEBHOOK_URL`
 
 ## Deployment
 
@@ -340,16 +360,6 @@ This keeps the runtime aligned with Cloud Platform security expectations while r
 
 - Dev: `https://dev.developer-portal.service.justice.gov.uk`
 - Prod: `https://developer-portal.service.justice.gov.uk`
-
-#### Cutover from GitHub Pages
-
-1. Merge Cloud Platform PRs that provision domains and GitHub secrets.
-2. Merge this deployment branch to `main`.
-3. Trigger/confirm successful dev deployment and smoke test (`/healthz` returns `ok`).
-4. Trigger/confirm successful prod deployment and smoke test (`/healthz` returns `ok`).
-5. After prod is serving from Cloud Platform, disable GitHub Pages in repository settings.
-
-Keeping Pages enabled until prod verification avoids downtime during migration.
 
 ## Licence
 

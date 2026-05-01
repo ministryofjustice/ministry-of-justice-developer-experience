@@ -180,6 +180,14 @@ App requirements:
 4. Commit a docs change and confirm subsequent notify runs ingest correctly.
 5. Confirm no commit is created in the portal repo when ingestion yields no content changes.
 
+### Slack notifications in the portal repository
+
+The portal ingest workflow can post run outcomes to Slack (success/failure/cancelled)
+when the portal repository secret `SLACK_WEBHOOK_URL` is configured.
+
+Source teams do not need to send Slack notifications from source repositories;
+triggering `docs-update` is sufficient for portal-side notification.
+
 ## Step 6: Validate Failure Behavior
 
 Test with an invalid `source_id` (manual run in portal ingest workflow):

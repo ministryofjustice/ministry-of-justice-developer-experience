@@ -4,6 +4,20 @@
 
 - Last reviewed: 2026-04-24
 
+## Repository Values (This Repo)
+
+- Repository: `ministryofjustice/ministry-of-justice-developer-portal`
+- Default branch: `main`
+- Ingestion workflow: `.github/workflows/ingest.yml`
+- Ingestion runner script: `scripts/ingest.mjs`
+- Ingestion library (testable exports): `scripts/ingest-lib.mjs`
+- Sources config: `sources.json`
+- Content output: `content/docs`
+- Public assets output: `public/docs`
+- Manual input name: `source_id`
+- Dispatch event type: `docs-update`
+- Scheduled cadence: every 6 hours (`0 */6 * * *`)
+
 ## Purpose
 
 This runbook defines a reusable ingestion process for any repository that
@@ -183,6 +197,11 @@ If workflow expects `client_payload.source_id`:
 - Workflow permissions to commit content changes (`contents: write`) when auto-commit is enabled
 - Network access from runner to source repositories
 
+Notification configuration for this repository:
+
+- Repository secret `SLACK_WEBHOOK_URL` (optional but recommended)
+- When set, the workflow sends Slack notifications for every ingestion outcome (success/failure/cancelled)
+
 ## Commit Strategy
 
 Typical post-ingestion behavior:
@@ -211,6 +230,7 @@ npm run build
 ```
 
 1. Spot-check representative pages for each source.
+1. Verify Slack notification delivery for the run outcome when `SLACK_WEBHOOK_URL` is configured.
 
 ## Troubleshooting Guide
 
